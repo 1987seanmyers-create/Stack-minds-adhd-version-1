@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -21,7 +22,6 @@ async def health():
         "status": "ok",
         "app": "StackMinds AI ADHD Focus"
     }
-from pydantic import BaseModel
 
 
 class BrainDump(BaseModel):
@@ -30,35 +30,6 @@ class BrainDump(BaseModel):
 
 @app.post("/api/run")
 async def run_stackminds(data: BrainDump):
-
     text = data.idea
 
-    tasks = [
-        line.strip()
-        for line in text.split(",")
-        if line.strip()
-    ]
-
-    return {
-        "mode": "ADHD Focus",
-        "brain_dump": text,
-        "organized_tasks": tasks,
-        "next_step": tasks[0] if tasks else "No tasks found"
-    }
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
-@app.get("/")
-def home():
-    return {
-        "app": "Stack Minds ADHD Version 1",
-        "status": "running",
-        "message": "Stack Minds is live."
-    }
-
-
-@app.head("/")
-def head_home():
-    return {}
+    tasks =

@@ -45,3 +45,20 @@ async def run_stackminds(data: BrainDump):
         "organized_tasks": tasks,
         "next_step": tasks[0] if tasks else "No tasks found"
     }
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+def home():
+    return {
+        "app": "Stack Minds ADHD Version 1",
+        "status": "running",
+        "message": "Stack Minds is live."
+    }
+
+
+@app.head("/")
+def head_home():
+    return {}

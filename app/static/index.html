@@ -1,6 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StackMinds AI · ADHD Focus</title>
 
-Title
-Short explanation
-Brain dump box
-Run button
-Output card
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <h1>StackMinds AI · ADHD Focus</h1>
+  <h2>From chaos to clarity</h2>
+
+  <textarea
+    id="ideaInput"
+    placeholder="Dump the mess here..."
+  ></textarea>
+
+  <button onclick="runStackMinds()">
+    Run StackMinds
+  </button>
+
+  <div id="results" class="results">
+
+    <div class="card">
+      <h2>Do This Now</h2>
+      <p id="nextStep">
+        Your next step will appear here.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Organized Tasks</h2>
+      <ul id="taskList"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Brain Dump</h2>
+      <p id="brainDump">
+        Your brain dump will appear here.
+      </p>
+    </div>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+
+</body>
+</html>

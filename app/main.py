@@ -8,12 +8,18 @@ app = FastAPI()
 
 BASE_DIR = Path(__file__).resolve().parent
 
-app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=BASE_DIR / "static"),
+    name="static"
+)
 
 
 @app.get("/")
 async def root():
-    return FileResponse(BASE_DIR / "static" / "index.html")
+    return FileResponse(
+        BASE_DIR / "static" / "index.html"
+    )
 
 
 @app.get("/health")
@@ -30,6 +36,18 @@ class BrainDump(BaseModel):
 
 @app.post("/api/run")
 async def run_stackminds(data: BrainDump):
+
     text = data.idea
 
-    tasks =
+    tasks = [
+        line.strip()
+        for line in text.split(",")
+        if line.strip()
+    ]
+
+    return {
+        "mode": "ADHD Focus",
+        "brain_dump": text,
+        "organized_tasks": tasks,
+        "next_step": tasks[0] if tasks else "No tasks found"
+    }

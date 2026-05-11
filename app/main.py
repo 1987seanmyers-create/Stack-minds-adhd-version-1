@@ -37,10 +37,6 @@ class BrainDump(BaseModel):
 @app.post("/api/run")
 async def run_stackminds(data: BrainDump):
 
-    text = data.idea.                                                                                                                                   
-    @app.post("/api/run")
-async def run_stackminds(data: BrainDump):
-
     text = data.idea
 
     tasks = [
@@ -65,10 +61,4 @@ async def run_stackminds(data: BrainDump):
         "brain_dump": text,
         "organized_tasks": tasks,
         "next_step": next_step
-    }
-    return {
-        "mode": "ADHD Focus",
-        "brain_dump": text,
-        "organized_tasks": tasks,
-        "next_step": tasks[0] if tasks else "No tasks found"
     }

@@ -37,6 +37,10 @@ class BrainDump(BaseModel):
 @app.post("/api/run")
 async def run_stackminds(data: BrainDump):
 
+    text = data.idea.                                                                                                                                   
+    @app.post("/api/run")
+async def run_stackminds(data: BrainDump):
+
     text = data.idea
 
     tasks = [
@@ -45,6 +49,23 @@ async def run_stackminds(data: BrainDump):
         if line.strip()
     ]
 
+    next_step = "Take a small first step."
+
+    if "overwhelmed" in text.lower():
+        next_step = "Choose ONE tiny thing and do it for 5 minutes."
+
+    elif "messy" in text.lower():
+        next_step = "Pick up visible trash first."
+
+    elif "procrastinating" in text.lower():
+        next_step = "Start with the easiest possible task."
+
+    return {
+        "mode": "ADHD Focus",
+        "brain_dump": text,
+        "organized_tasks": tasks,
+        "next_step": next_step
+    }
     return {
         "mode": "ADHD Focus",
         "brain_dump": text,

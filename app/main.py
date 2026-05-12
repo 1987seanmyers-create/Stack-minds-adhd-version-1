@@ -3,6 +3,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 from pydantic import BaseModel
+from openai import OpenAI
+import os
+import json
 
 app = FastAPI()
 
@@ -12,6 +15,10 @@ app.mount(
     "/static",
     StaticFiles(directory=BASE_DIR / "static"),
     name="static"
+)
+
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
 
@@ -36,38 +43,66 @@ class BrainDump(BaseModel):
 
 @app.post("/api/run")
 async def run_stackminds(data: BrainDump):
+
     text = data.idea
-    lower_text = text.lower()
 
-    tasks = [
-        line.strip()
-        for line in text.split(",")
-        if line.strip()
-    ]
+    prompt = f"""
+You are an ADHD executive function assistant.
 
-    next_step = "Pick one small action and do it for 5 minutes."
-    focus_plan = "Do not solve everything at once. Start with one visible action."
+The user will give you a messy brain dump.
 
-    if "overwhelmed" in lower_text:
-        next_step = "Choose ONE tiny thing and do it for 5 minutes."
-        focus_plan = "Your brain is overloaded. Do not organize everything right now. Pick one tiny visible action."
+Your job:
+- reduce overwhelm
+- organize tasks
+- identify the best next step
+- create a calm focus plan
+- keep advice simple and supportive
 
-    elif "messy" in lower_text or "apartment" in lower_text or "room" in lower_text:
-        next_step = "Pick up visible trash first."
-        focus_plan = "Do not clean the whole place. Only handle obvious trash for 5 minutes."
+Return ONLY valid JSON in this format:
 
-    elif "procrastinating" in lower_text:
-        next_step = "Start with the easiest possible task."
-        focus_plan = "Lower the pressure. The goal is to begin, not finish."
+{{
+  "organized_tasks": ["task 1", "task 2"],
+  "next_step": "one simple next step",
+  "focus_plan": "short calm focus guidance"
+}}
 
-    elif "app" in lower_text or "business" in lower_text:
-        next_step = "Write down the one next action that moves the project forward."
-        focus_plan = "Ignore the whole business for now. Pick one build step, one message, or one test."
+User brain dump:
+{text}
+"""
+
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "You help ADHD users reduce overwhelm."
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        temperature=0.7
+    )
+
+    content = response.choices[0].message.content
+
+    try:
+        parsed = json.loads(content)
+
+    except Exception:
+        parsed = {
+            "organized_tasks": [
+                "Unable to organize tasks"
+            ],
+            "next_step": "Try again with a shorter brain dump.",
+            "focus_plan": content
+        }
 
     return {
         "mode": "ADHD Focus",
         "brain_dump": text,
-        "organized_tasks": tasks,
-        "next_step": next_step,
-        "focus_plan": focus_plan
+        "organized_tasks": parsed.get("organized_tasks", []),
+        "next_step": parsed.get("next_step", ""),
+        "focus_plan": parsed.get("focus_plan", "")
     }

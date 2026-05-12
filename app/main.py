@@ -49,60 +49,58 @@ async def run_stackminds(data: BrainDump):
     prompt = f"""
 You are an ADHD executive function assistant.
 
-The user will give you a messy brain dump.
+Help reduce overwhelm.
+Keep responses short, calm, and actionable.
 
-Your job:
-- reduce overwhelm
-- organize tasks
-- identify the best next step
-- create a calm focus plan
-- keep advice simple and supportive
-
-Return ONLY valid JSON in this format:
+Return ONLY valid JSON:
 
 {{
-  "organized_tasks": ["task 1", "task 2"],
-  "next_step": "one simple next step",
-  "focus_plan": "short calm focus guidance"
+  "organized_tasks": ["task"],
+  "next_step": "one step",
+  "focus_plan": "short focus guidance"
 }}
 
 User brain dump:
 {text}
 """
 
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[
-            {
-                "role": "system",
-                "content": "You help ADHD users reduce overwhelm."
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        temperature=0.7
-    )
-
-    content = response.choices[0].message.content
-
     try:
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You help ADHD users reduce overwhelm."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.7
+        )
+
+        content = response.choices[0].message.content
+
         parsed = json.loads(content)
 
-    except Exception:
-        parsed = {
-            "organized_tasks": [
-                "Unable to organize tasks"
-            ],
-            "next_step": "Try again with a shorter brain dump.",
-            "focus_plan": content
+        return {
+            "mode": "ADHD Focus",
+            "brain_dump": text,
+            "organized_tasks": parsed.get("organized_tasks", []),
+            "next_step": parsed.get("next_step", ""),
+            "focus_plan": parsed.get("focus_plan", "")
         }
 
-    return {
-        "mode": "ADHD Focus",
-        "brain_dump": text,
-        "organized_tasks": parsed.get("organized_tasks", []),
-        "next_step": parsed.get("next_step", ""),
-        "focus_plan": parsed.get("focus_plan", "")
-    }
+    except Exception as e:
+
+        return {
+            "mode": "ADHD Focus",
+            "brain_dump": text,
+            "organized_tasks": [
+                "Unable to contact AI service"
+            ],
+            "next_step": "Check OpenAI billing or API quota.",
+            "focus_plan": str(e)
+        }

@@ -41,6 +41,70 @@ class BrainDump(BaseModel):
     idea: str
 
 
+def fallback_adhd_logic(text: str):
+    lower_text = text.lower()
+
+    tasks = [
+        line.strip()
+        for line in text.split(",")
+        if line.strip()
+    ]
+
+    next_step = "Pick one small thing and work on it for 5 minutes."
+    focus_plan = "Do not solve everything at once. Reduce overwhelm first."
+
+    if "overwhelmed" in lower_text:
+        next_step = "Choose ONE tiny thing and do it for only 5 minutes."
+        focus_plan = (
+            "Your brain is overloaded right now. "
+            "Do not try to organize your whole life. "
+            "Pick one tiny visible action."
+        )
+
+    elif "messy" in lower_text or "room" in lower_text or "apartment" in lower_text:
+        next_step = "Pick up visible trash first."
+        focus_plan = (
+            "Ignore deep cleaning. "
+            "Only remove obvious trash or dirty dishes first."
+        )
+
+    elif "procrastinating" in lower_text:
+        next_step = "Start with the easiest possible task."
+        focus_plan = (
+            "Momentum matters more than perfection. "
+            "Starting is the win."
+        )
+
+    elif "money" in lower_text or "bills" in lower_text:
+        next_step = "List your most urgent bill first."
+        focus_plan = (
+            "Do not think about all finances at once. "
+            "Handle one immediate problem first."
+        )
+
+    elif "app" in lower_text or "business" in lower_text:
+        next_step = "Write down ONE task that moves the project forward."
+        focus_plan = (
+            "Ignore the entire business for now. "
+            "Focus only on the next build step."
+        )
+
+    elif "tired" in lower_text or "burned out" in lower_text:
+        next_step = "Drink water and rest for 15 minutes."
+        focus_plan = (
+            "Burnout is not laziness. "
+            "Reduce pressure before trying to perform."
+        )
+
+    return {
+        "mode": "ADHD Focus — Free Logic",
+        "brain_dump": text,
+        "organized_tasks": tasks,
+        "next_step": next_step,
+        "focus_plan": focus_plan
+    }
+
+
 @app.post("/api/run")
 async def run_stackminds(data: BrainDump):
 
@@ -65,7 +129,6 @@ User brain dump:
 """
 
     try:
-
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -82,25 +145,15 @@ User brain dump:
         )
 
         content = response.choices[0].message.content
-
         parsed = json.loads(content)
 
         return {
-            "mode": "ADHD Focus",
+            "mode": "ADHD Focus — AI",
             "brain_dump": text,
             "organized_tasks": parsed.get("organized_tasks", []),
             "next_step": parsed.get("next_step", ""),
             "focus_plan": parsed.get("focus_plan", "")
         }
 
-    except Exception as e:
-
-        return {
-            "mode": "ADHD Focus",
-            "brain_dump": text,
-            "organized_tasks": [
-                "Unable to contact AI service"
-            ],
-            "next_step": "Check OpenAI billing or API quota.",
-            "focus_plan": str(e)
-        }
+    except Exception:
+        return fallback_adhd_logic(text)

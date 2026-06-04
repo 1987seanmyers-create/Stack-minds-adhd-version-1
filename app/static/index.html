@@ -10,16 +10,22 @@
 
   <div class="phone-shell">
     <header class="app-header">
-      <div>
-        <p class="eyebrow">StackMinds AI</p>
-        <h1>From chaos to clarity</h1>
-      </div>
+      <p class="eyebrow">StackMinds AI · ADHD Focus</p>
+      <h1>From chaos to clarity</h1>
+      <p class="helper">Dump the chaos. Get one next step.</p>
     </header>
 
     <section class="input-card">
-      <p class="helper">What is stuck in your head?</p>
-      <textarea id="ideaInput" placeholder="Brain dump here..."></textarea>
-      <button onclick="runStackMinds()">Run StackMinds</button>
+      <textarea id="ideaInput" placeholder="What is stuck in your head?"></textarea>
+
+      <div class="quick-buttons">
+        <button type="button" onclick="quickFill('I feel overwhelmed and do not know what to do first.')">Overwhelmed</button>
+        <button type="button" onclick="quickFill('My room or apartment is messy and I do not know where to start.')">Messy</button>
+        <button type="button" onclick="quickFill('I keep procrastinating and cannot get myself to start.')">Procrastinating</button>
+        <button type="button" onclick="quickFill('I need to focus on my app or business but I do not know the next step.')">Business Focus</button>
+      </div>
+
+      <button class="main-button" onclick="runStackMinds()">Run StackMinds</button>
       <p id="statusText">Ready.</p>
     </section>
 

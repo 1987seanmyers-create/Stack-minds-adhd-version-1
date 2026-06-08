@@ -36,7 +36,6 @@ h1 {
 .helper {
   color: #cbd5e1;
   margin: 0;
-  font-size: 16px;
 }
 
 .input-card,
@@ -48,10 +47,9 @@ h1 {
   box-shadow: 0 12px 30px rgba(0,0,0,0.25);
 }
 
-textarea {
+textarea,
+input {
   width: 100%;
-  height: 145px;
-  resize: none;
   padding: 14px;
   font-size: 16px;
   border-radius: 18px;
@@ -61,8 +59,9 @@ textarea {
   outline: none;
 }
 
-textarea:focus {
-  border-color: #38bdf8;
+textarea {
+  height: 145px;
+  resize: none;
 }
 
 .quick-buttons {
@@ -86,10 +85,20 @@ textarea:focus {
   padding: 16px;
   font-size: 18px;
   font-weight: bold;
-  border: none;
   border-radius: 18px;
   background: #38bdf8;
   color: #020617;
+}
+
+.secondary-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 16px;
+  background: #475569;
+  color: #f8fafc;
 }
 
 button {
@@ -103,7 +112,6 @@ button:active {
 
 #statusText {
   color: #94a3b8;
-  margin-bottom: 0;
 }
 
 .card.highlight {
@@ -113,7 +121,6 @@ button:active {
 .card h2 {
   margin-top: 0;
   color: #e0f2fe;
-  font-size: 20px;
 }
 
 .card p,
@@ -124,8 +131,4 @@ li {
 
 ul {
   padding-left: 22px;
-}
-
-li {
-  margin-bottom: 8px;
 }

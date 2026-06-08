@@ -16,24 +16,17 @@ async function runStackMinds() {
   try {
     const response = await fetch("/api/run", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        idea: input
-      })
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({idea: input})
     });
 
     const data = await response.json();
-
-    document.getElementById("brainDump").textContent =
-      data.brain_dump || "";
 
     document.getElementById("nextStep").textContent =
       data.next_step || "Pick one small action and start for 5 minutes.";
 
     document.getElementById("focusPlan").textContent =
-      data.focus_plan || "Do not solve everything. Start with one small visible action.";
+      data.focus_plan || "Start small. One step only.";
 
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
@@ -51,8 +44,40 @@ async function runStackMinds() {
     }
 
     status.textContent = "Done.";
-
   } catch (error) {
     status.textContent = "Something went wrong. Try again.";
   }
 }
+
+function startFocusSprint() {
+  document.getElementById("statusText").textContent =
+    "Focus Sprint started: work for 5 minutes only. Finishing is optional. Starting is the win.";
+}
+
+function saveWin() {
+  const input = document.getElementById("winInput");
+  const win = input.value.trim();
+
+  if (!win) return;
+
+  const wins = JSON.parse(localStorage.getItem("stackminds_wins") || "[]");
+  wins.push(win);
+  localStorage.setItem("stackminds_wins", JSON.stringify(wins));
+
+  input.value = "";
+  loadWins();
+}
+
+function loadWins() {
+  const wins = JSON.parse(localStorage.getItem("stackminds_wins") || "[]");
+  const list = document.getElementById("winList");
+  list.innerHTML = "";
+
+  wins.forEach(win => {
+    const li = document.createElement("li");
+    li.textContent = "✓ " + win;
+    list.appendChild(li);
+  });
+}
+
+loadWins();

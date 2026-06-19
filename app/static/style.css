@@ -57,7 +57,7 @@ h1 {
  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
   
 }
-extarea,
+textarea,
 input {
   width: 100%;
   padding: 14px;

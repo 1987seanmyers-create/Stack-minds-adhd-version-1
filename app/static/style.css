@@ -98,8 +98,18 @@ textarea {
   font-size: 18px;
   font-weight: bold;
   border-radius: 18px;
-  background: #38bdf8;
-  color: #020617;
+
+  background: linear-gradient(
+    90deg,
+    #ff4d4d,
+    #ff9d00,
+    #38d39f,
+    #38bdf8,
+    #b76dff
+  );
+
+  color: white;
+}
 }
 
 .secondary-button {

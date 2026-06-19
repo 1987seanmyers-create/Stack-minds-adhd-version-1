@@ -9,23 +9,26 @@ body {
 
   background-image:
     linear-gradient(
-      rgba(2, 6, 23, 0.85),
+      rgba(2, 6, 23, 0.82),
       rgba(2, 6, 23, 0.90)
     ),
     url("/static/brain_background.jpg");
 
-  background-size: contain;
-background-repeat: no-repeat;
-background-color: #020617;
+  background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
+
 .phone-shell {
   max-width: 430px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 18px;
-  background: linear-gradient(180deg, #0f172a, #020617);
+
+  background: linear-gradient(
+    rgba(2, 6, 23, 0.88),
+    rgba(2, 6, 23, 0.94)
+  );
 }
 
 .app-header {
@@ -33,7 +36,7 @@ background-color: #020617;
 }
 
 .eyebrow {
-  color: #38bdf8;
+  color: #38d39f;
   font-weight: bold;
   margin: 0 0 8px;
 }
@@ -42,6 +45,10 @@ h1 {
   font-size: 34px;
   line-height: 1;
   margin: 0 0 10px;
+
+  text-shadow:
+    0 0 10px rgba(56, 189, 248, 0.6),
+    0 0 20px rgba(183, 109, 255, 0.4);
 }
 
 .helper {
@@ -51,22 +58,23 @@ h1 {
 
 .input-card,
 .card {
-  background: rgba(30, 41, 59, 0.85);
+  background: rgba(30, 41, 59, 0.82);
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 22px;
   padding: 18px;
   margin-bottom: 16px;
- box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-  
+  box-shadow: 0 12px 30px rgba(0,0,0,0.30);
 }
+
 textarea,
 input {
   width: 100%;
   padding: 14px;
   font-size: 16px;
   border-radius: 18px;
-  border: 1px solid #334155;
-  background: #020617;
+  border: 1px solid rgba(56,189,248,0.35);
+  background: rgba(2, 6, 23, 0.90);
   color: #f8fafc;
   outline: none;
 }
@@ -76,25 +84,26 @@ textarea {
   resize: none;
 }
 
-.quick-buttons button {
-  padding: 12px;
-  font-size: 14px;
-  border-radius: 14px;
-
-  background: rgba(255,255,255,.08);
-
-  border: 1px solid rgba(255,255,255,.15);
-
-  color: white;
+textarea:focus,
+input:focus {
+  border-color: #38d39f;
+  box-shadow: 0 0 16px rgba(56, 211, 159, 0.25);
 }
 
+.quick-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
 
 .quick-buttons button {
   padding: 12px;
   font-size: 14px;
   border-radius: 14px;
-  background: #334155;
-  color: #f8fafc;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
 }
 
 .main-button {
@@ -115,7 +124,7 @@ textarea {
   );
 
   color: white;
-}
+  box-shadow: 0 0 22px rgba(56,189,248,0.35);
 }
 
 .secondary-button {
@@ -125,8 +134,9 @@ textarea {
   font-size: 15px;
   font-weight: bold;
   border-radius: 16px;
-  background: #475569;
+  background: rgba(183,109,255,0.22);
   color: #f8fafc;
+  border: 1px solid rgba(183,109,255,0.35);
 }
 
 button {
@@ -139,11 +149,20 @@ button:active {
 }
 
 #statusText {
-  color: #94a3b8;
+  color: #cbd5e1;
 }
 
 .card.highlight {
-  background: #134e4a;
+  background: linear-gradient(
+    135deg,
+    rgba(255,77,77,0.35),
+    rgba(255,157,0,0.35),
+    rgba(56,211,159,0.35),
+    rgba(56,189,248,0.35),
+    rgba(183,109,255,0.35)
+  );
+
+  border: 1px solid rgba(255,255,255,0.18);
 }
 
 .card h2 {

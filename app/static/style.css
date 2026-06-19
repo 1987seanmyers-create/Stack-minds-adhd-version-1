@@ -280,3 +280,21 @@ li {
     grid-template-columns: 1fr;
   }
 }
+.mission-card {
+  background: linear-gradient(
+    135deg,
+    rgba(56, 211, 159, 0.25),
+    rgba(56, 189, 248, 0.25),
+    rgba(183, 109, 255, 0.25)
+  );
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.timer {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+  color: #38d39f;
+  text-shadow: 0 0 18px rgba(56,211,159,0.45);
+}

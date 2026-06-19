@@ -14,7 +14,9 @@ body {
     ),
     url("/static/brain_background.jpg");
 
-  background-size: cover;
+  background-size: contain;
+background-repeat: no-repeat;
+background-color: #020617;
   background-position: center;
   background-attachment: fixed;
 }

@@ -1,0 +1,10 @@
+{
+  "name": "StackMinds AI ADHD Focus",
+  "short_name": "StackMinds",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#38bdf8",
+  "description": "From chaos to clarity. ADHD-friendly brain dump and focus tool.",
+  "icons": []
+}

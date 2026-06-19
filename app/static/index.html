@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StackMinds AI</title>
+  <link rel="manifest" href="/static/manifest.webmanifest">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -13,6 +14,11 @@
       <h1>From chaos to clarity</h1>
       <p class="helper">Dump the chaos. Get one next step.</p>
     </header>
+
+    <section class="card mission-card">
+      <h2>Today’s Mission</h2>
+      <p id="missionText">One small win today.</p>
+    </section>
 
     <section class="input-card">
       <textarea id="ideaInput" placeholder="What is stuck in your head?"></textarea>
@@ -25,7 +31,11 @@
       </div>
 
       <button class="main-button" onclick="runStackMinds()">Run StackMinds</button>
+      <button class="secondary-button" onclick="startVoiceDump()">🎤 Talk It Out</button>
       <button class="secondary-button" onclick="startFocusSprint()">Start 5-Min Focus Sprint</button>
+
+      <div class="timer" id="timerDisplay">5:00</div>
+
       <p id="statusText">Ready.</p>
     </section>
 
@@ -49,6 +59,11 @@
       <input id="winInput" placeholder="Type a small win..." />
       <button class="secondary-button" onclick="saveWin()">Save Win</button>
       <ul id="winList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Brain Dump History</h2>
+      <ul id="historyList"></ul>
     </section>
   </div>
 

@@ -9,8 +9,8 @@ body {
 
   background-image:
     linear-gradient(
-      rgba(2, 6, 23, 0.82),
-      rgba(2, 6, 23, 0.90)
+      rgba(2,6,23,.82),
+      rgba(2,6,23,.90)
     ),
     url("/static/brain_background.jpg");
 
@@ -26,8 +26,8 @@ body {
   padding: 18px;
 
   background: linear-gradient(
-    rgba(2, 6, 23, 0.88),
-    rgba(2, 6, 23, 0.94)
+    rgba(2,6,23,.88),
+    rgba(2,6,23,.94)
   );
 }
 
@@ -39,6 +39,7 @@ body {
   color: #38d39f;
   font-weight: bold;
   margin: 0 0 8px;
+  letter-spacing: 1px;
 }
 
 h1 {
@@ -47,8 +48,8 @@ h1 {
   margin: 0 0 10px;
 
   text-shadow:
-    0 0 10px rgba(56, 189, 248, 0.6),
-    0 0 20px rgba(183, 109, 255, 0.4);
+    0 0 10px rgba(56,189,248,.6),
+    0 0 20px rgba(183,109,255,.4);
 }
 
 .helper {
@@ -58,124 +59,224 @@ h1 {
 
 .input-card,
 .card {
-  background: rgba(30, 41, 59, 0.82);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 22px;
+  background: rgba(30,41,59,.82);
+
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,.10);
+
+  border-radius: 24px;
+
   padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.30);
+
+  margin-bottom: 18px;
+
+  box-shadow:
+      0 12px 30px rgba(0,0,0,.30);
 }
 
 textarea,
 input {
   width: 100%;
+
   padding: 14px;
+
   font-size: 16px;
+
   border-radius: 18px;
-  border: 1px solid rgba(56,189,248,0.35);
-  background: rgba(2, 6, 23, 0.90);
-  color: #f8fafc;
+
+  border: 1px solid rgba(56,189,248,.30);
+
+  background: rgba(2,6,23,.92);
+
+  color: white;
+
   outline: none;
 }
 
 textarea {
-  height: 145px;
+  height: 150px;
   resize: none;
 }
 
 textarea:focus,
 input:focus {
+
   border-color: #38d39f;
-  box-shadow: 0 0 16px rgba(56, 211, 159, 0.25);
+
+  box-shadow:
+      0 0 18px rgba(56,211,159,.25);
 }
 
 .quick-buttons {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 10px;
+
   margin-top: 12px;
 }
 
 .quick-buttons button {
+
   padding: 12px;
+
   font-size: 14px;
+
   border-radius: 14px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+
+  background: rgba(255,255,255,.08);
+
+  border: 1px solid rgba(255,255,255,.15);
+
   color: white;
 }
 
 .main-button {
+
   width: 100%;
+
   margin-top: 14px;
+
   padding: 16px;
+
   font-size: 18px;
+
   font-weight: bold;
+
   border-radius: 18px;
 
-  background: linear-gradient(
-    90deg,
-    #ff4d4d,
-    #ff9d00,
-    #38d39f,
-    #38bdf8,
-    #b76dff
+  background:
+
+  linear-gradient(
+      90deg,
+      #ff4d4d,
+      #ff9d00,
+      #38d39f,
+      #38bdf8,
+      #b76dff
   );
 
   color: white;
-  box-shadow: 0 0 22px rgba(56,189,248,0.35);
+
+  box-shadow:
+
+      0 0 25px rgba(56,189,248,.35);
 }
 
 .secondary-button {
+
   width: 100%;
+
   margin-top: 10px;
+
   padding: 13px;
+
   font-size: 15px;
+
   font-weight: bold;
+
   border-radius: 16px;
-  background: rgba(183,109,255,0.22);
-  color: #f8fafc;
-  border: 1px solid rgba(183,109,255,0.35);
+
+  background:
+
+      rgba(183,109,255,.20);
+
+  color: white;
+
+  border: 1px solid rgba(183,109,255,.35);
 }
 
 button {
+
   border: none;
+
   cursor: pointer;
+
+  transition: .2s;
+}
+
+button:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+
+      0 0 15px rgba(56,189,248,.3);
 }
 
 button:active {
-  transform: scale(0.98);
+
+  transform: scale(.98);
 }
 
 #statusText {
-  color: #cbd5e1;
+
+  color: #94a3b8;
 }
 
 .card.highlight {
-  background: linear-gradient(
-    135deg,
-    rgba(255,77,77,0.35),
-    rgba(255,157,0,0.35),
-    rgba(56,211,159,0.35),
-    rgba(56,189,248,0.35),
-    rgba(183,109,255,0.35)
+
+  background:
+
+  linear-gradient(
+      135deg,
+      rgba(255,77,77,.35),
+      rgba(255,157,0,.35),
+      rgba(56,211,159,.35),
+      rgba(56,189,248,.35),
+      rgba(183,109,255,.35)
   );
 
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,.18);
 }
 
 .card h2 {
+
   margin-top: 0;
+
   color: #e0f2fe;
 }
 
 .card p,
 li {
+
   font-size: 16px;
+
   line-height: 1.5;
 }
 
 ul {
+
   padding-left: 22px;
+}
+
+li {
+
+  margin-bottom: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56,189,248,.35);
+  border-radius: 20px;
+}
+
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .phone-shell {
+    padding: 14px;
+  }
+
+  .quick-buttons {
+    grid-template-columns: 1fr;
+  }
 }

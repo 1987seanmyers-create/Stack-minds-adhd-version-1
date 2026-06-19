@@ -5,10 +5,19 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #020617;
   color: #f8fafc;
-}
 
+  background-image:
+    linear-gradient(
+      rgba(2, 6, 23, 0.85),
+      rgba(2, 6, 23, 0.90)
+    ),
+    url("/static/brain_background.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 .phone-shell {
   max-width: 430px;
   min-height: 100vh;

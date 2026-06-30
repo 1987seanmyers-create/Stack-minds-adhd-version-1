@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>StackMinds AI</title>
+<title>StackMinds AI</title>
 
-    <link rel="manifest" href="/static/manifest.webmanifest">
-    <link rel="stylesheet" href="/static/style.css">
+<link rel="manifest" href="/static/manifest.webmanifest">
+<link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
@@ -21,13 +20,17 @@
 🧠
 </div>
 
-<h1>StackMinds</h1>
+<p class="eyebrow">StackMinds AI</p>
+
+<h1>From Chaos to Clarity</h1>
 
 <p class="helper">
-Turn Chaos Into Clarity
+Dump what's in your head.
+We'll organize it.
 </p>
 
 </header>
+
 
 <section class="card mission-card">
 
@@ -37,43 +40,46 @@ Turn Chaos Into Clarity
 One small win today.
 </p>
 
+</section>
+
+
 <div class="progress-ring">
 
 <div class="ring">
 
 <div class="ring-inner">
-0%
-</div>
+
+5:00
 
 </div>
 
 </div>
 
-</section>
+</div>
+
 
 <section class="input-card">
 
 <textarea
 id="ideaInput"
-placeholder="What's going through your mind right now?">
-</textarea>
+placeholder="What's overwhelming you today?"></textarea>
 
 <div class="quick-buttons">
 
 <button onclick="quickFill('I feel overwhelmed and need one tiny action.')">
-😵 Overwhelmed
+Panic
 </button>
 
-<button onclick="quickFill('My room is messy.')">
-🧹 Clean
+<button onclick="quickFill('I need one mission for today.')">
+Mission
 </button>
 
-<button onclick="quickFill('I need to study today.')">
-📚 Study
+<button onclick="quickFill('I keep procrastinating.')">
+Procrastinating
 </button>
 
-<button onclick="quickFill('I have too much work.')">
-💼 Work
+<button onclick="quickFill('Everything feels messy.')">
+Messy
 </button>
 
 </div>
@@ -82,7 +88,7 @@ placeholder="What's going through your mind right now?">
 class="main-button"
 onclick="runStackMinds()">
 
-✨ Organize My Mind
+Run StackMinds
 
 </button>
 
@@ -90,7 +96,7 @@ onclick="runStackMinds()">
 class="secondary-button"
 onclick="startVoiceDump()">
 
-🎤 Talk It Out
+🎤 Voice Dump
 
 </button>
 
@@ -98,7 +104,7 @@ onclick="startVoiceDump()">
 class="secondary-button"
 onclick="startFocusSprint()">
 
-⏱ Start Focus Sprint
+Start Focus Sprint
 
 </button>
 
@@ -111,20 +117,15 @@ id="timerDisplay">
 </div>
 
 <p id="statusText">
-
 Ready.
-
 </p>
 
 </section>
 
+
 <section class="card highlight">
 
-<h2>
-
-🎯 Next Step
-
-</h2>
+<h2>Do This Now</h2>
 
 <p id="nextStep">
 
@@ -134,13 +135,10 @@ Your next step appears here.
 
 </section>
 
+
 <section class="card">
 
-<h2>
-
-⚡ Focus Plan
-
-</h2>
+<h2>Focus Plan</h2>
 
 <p id="focusPlan">
 
@@ -150,29 +148,23 @@ Your focus plan appears here.
 
 </section>
 
+
 <section class="card">
 
-<h2>
-
-✅ Organized Tasks
-
-</h2>
+<h2>Organized Tasks</h2>
 
 <ul id="taskList"></ul>
 
 </section>
 
+
 <section class="card">
 
-<h2>
-
-🏆 Win Vault
-
-</h2>
+<h2>Today's Wins</h2>
 
 <input
 id="winInput"
-placeholder="Record today's win...">
+placeholder="Write one win..." />
 
 <button
 class="secondary-button"
@@ -186,17 +178,15 @@ Save Win
 
 </section>
 
+
 <section class="card">
 
-<h2>
-
-🧠 Brain Dump History
-
-</h2>
+<h2>Brain Dump History</h2>
 
 <ul id="historyList"></ul>
 
 </section>
+
 
 <nav class="bottom-nav">
 
@@ -204,9 +194,9 @@ Save Win
 
 <button>🧠</button>
 
-<button>📈</button>
+<button>🎯</button>
 
-<button>😊</button>
+<button>📈</button>
 
 <button>⚙️</button>
 
@@ -217,5 +207,4 @@ Save Win
 <script src="/static/app.js"></script>
 
 </body>
-
 </html>

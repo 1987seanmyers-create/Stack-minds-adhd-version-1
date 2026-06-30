@@ -1,234 +1,75 @@
-const input = document.getElementById("ideaInput");
-const status = document.getElementById("statusText");
-const nextStep = document.getElementById("nextStep");
-const focusPlan = document.getElementById("focusPlan");
-const taskList = document.getElementById("taskList");
-const historyList = document.getElementById("historyList");
-const winList = document.getElementById("winList");
-const missionText = document.getElementById("missionText");
+// -------------------------
+// DAILY STREAK
+// -------------------------
 
-loadWins();
-loadHistory();
+function loadStreak(){
 
-async function runStackMinds() {
+const today=new Date().toDateString();
 
-    const text = input.value.trim();
+const last=localStorage.getItem("lastVisit");
 
-    if (!text) {
-        alert("Type something first.");
-        return;
-    }
+let streak=parseInt(localStorage.getItem("streak")||"0");
 
-    status.innerText = "Thinking...";
+if(last!==today){
 
-    try {
+const yesterday=new Date();
 
-        const response = await fetch("/api/run", {
+yesterday.setDate(yesterday.getDate()-1);
 
-            method: "POST",
+if(last===yesterday.toDateString()){
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+streak++;
 
-            body: JSON.stringify({
-                idea: text
-            })
+}else{
 
-        });
-
-        const data = await response.json();
-
-        nextStep.innerText = data.next_step;
-
-        focusPlan.innerText = data.focus_plan;
-
-        taskList.innerHTML = "";
-
-        data.organized_tasks.forEach(task => {
-
-            const li = document.createElement("li");
-            li.innerText = task;
-            taskList.appendChild(li);
-
-        });
-
-        missionText.innerText = data.next_step;
-
-        saveHistory(text);
-
-        status.innerText = "Done.";
-
-    }
-
-    catch (err) {
-
-        status.innerText = "Offline Mode";
-
-        nextStep.innerText =
-            "Choose one tiny task and spend only two minutes on it.";
-
-        focusPlan.innerText =
-            "No AI available. Stay focused for five minutes.";
-
-        taskList.innerHTML = `
-        <li>Drink water</li>
-        <li>Clear one small space</li>
-        <li>Do one task for five minutes</li>
-        `;
-
-    }
+streak=1;
 
 }
 
-function quickFill(text) {
+localStorage.setItem("streak",streak);
 
-    input.value = text;
-
-}
-
-function saveWin() {
-
-    const box = document.getElementById("winInput");
-
-    if (box.value === "") return;
-
-    let wins =
-        JSON.parse(localStorage.getItem("wins")) || [];
-
-    wins.unshift(box.value);
-
-    localStorage.setItem(
-        "wins",
-        JSON.stringify(wins)
-    );
-
-    box.value = "";
-
-    loadWins();
+localStorage.setItem("lastVisit",today);
 
 }
 
-function loadWins() {
+const mission=document.getElementById("missionText");
 
-    let wins =
-        JSON.parse(localStorage.getItem("wins")) || [];
+if(mission){
 
-    winList.innerHTML = "";
-
-    wins.forEach(win => {
-
-        const li = document.createElement("li");
-
-        li.innerText = "🏆 " + win;
-
-        winList.appendChild(li);
-
-    });
+mission.innerHTML=
+"🔥 "+streak+" day streak";
+}
 
 }
 
-function saveHistory(text) {
 
-    let history =
-        JSON.parse(localStorage.getItem("history")) || [];
 
-    history.unshift(text);
+// -------------------------
+// MOOD TRACKER
+// -------------------------
 
-    history = history.slice(0, 20);
+function saveMood(mood){
 
-    localStorage.setItem(
-        "history",
-        JSON.stringify(history)
-    );
+localStorage.setItem("todayMood",mood);
 
-    loadHistory();
+alert("Mood saved: "+mood);
 
 }
 
-function loadHistory() {
 
-    let history =
-        JSON.parse(localStorage.getItem("history")) || [];
 
-    historyList.innerHTML = "";
+// -------------------------
+// ACHIEVEMENTS
+// -------------------------
 
-    history.forEach(item => {
+function checkAchievements(){
 
-        const li = document.createElement("li");
+let wins=document.querySelectorAll("#winList li").length;
 
-        li.innerText = item;
+if(wins>=5){
 
-        historyList.appendChild(li);
-
-    });
+alert("🏆 Achievement Unlocked: Momentum!");
 
 }
-
-let timer;
-let seconds = 300;
-
-function startFocusSprint() {
-
-    clearInterval(timer);
-
-    seconds = 300;
-
-    updateTimer();
-
-    timer = setInterval(() => {
-
-        seconds--;
-
-        updateTimer();
-
-        if (seconds <= 0) {
-
-            clearInterval(timer);
-
-            alert("🎉 Focus Sprint Complete!");
-
-        }
-
-    }, 1000);
-
-}
-
-function updateTimer() {
-
-    const minutes =
-        Math.floor(seconds / 60);
-
-    const secs =
-        seconds % 60;
-
-    document.getElementById("timerDisplay").innerText =
-        `${minutes}:${secs.toString().padStart(2, "0")}`;
-
-}
-
-function startVoiceDump() {
-
-    if (!("webkitSpeechRecognition" in window)) {
-
-        alert("Speech recognition not supported.");
-
-        return;
-
-    }
-
-    const recognition =
-        new webkitSpeechRecognition();
-
-    recognition.lang = "en-US";
-
-    recognition.onresult = function(event) {
-
-        input.value =
-            event.results[0][0].transcript;
-
-    };
-
-    recognition.start();
 
 }

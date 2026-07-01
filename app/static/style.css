@@ -365,3 +365,12 @@ li {
     transform: scale(1);
   }
 }
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const splash = document.getElementById("splashScreen");
+
+    if (splash) {
+      splash.classList.add("hide");
+    }
+  }, 1800);
+});

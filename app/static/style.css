@@ -374,3 +374,11 @@ window.addEventListener("load", () => {
     }
   }, 1800);
 });
+setTimeout(() => {
+  const splash = document.getElementById("splashScreen");
+
+  if (splash) {
+    splash.classList.add("hide");
+    splash.style.display = "none";
+  }
+}, 2000);

@@ -1,4 +1,4 @@
-# StackMinds AI — ADHD Focus Version
+# StackMinds AI — ADHD Focus Version 2.0
 
 From chaos to clarity.
 

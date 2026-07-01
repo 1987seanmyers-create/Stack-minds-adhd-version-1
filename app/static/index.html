@@ -11,15 +11,19 @@
 </head>
 
 <body>
+
+  <div id="splashScreen" class="splash-screen">
+    <img src="/static/icon-512.png" class="splash-logo" alt="StackMinds logo">
+    <h1>StackMinds AI</h1>
+    <p>From chaos to clarity.</p>
+  </div>
+
   <div class="phone-shell">
 
     <header class="app-header">
       <div class="logo-circle">🧠</div>
-
       <p class="eyebrow">StackMinds AI · ADHD Focus</p>
-
       <h1>From Chaos to Clarity</h1>
-
       <p class="helper">
         Dump what is stuck in your head. Get one clear next step.
       </p>
@@ -43,34 +47,15 @@
       ></textarea>
 
       <div class="quick-buttons">
-        <button onclick="quickFill('I feel overwhelmed and need one tiny action.')">
-          😵 Panic
-        </button>
-
-        <button onclick="quickFill('I need one mission for today.')">
-          🎯 Mission
-        </button>
-
-        <button onclick="quickFill('I keep procrastinating and cannot start.')">
-          ⏳ Procrastinating
-        </button>
-
-        <button onclick="quickFill('My room or apartment is messy.')">
-          🧹 Messy
-        </button>
+        <button onclick="quickFill('I feel overwhelmed and need one tiny action.')">😵 Panic</button>
+        <button onclick="quickFill('I need one mission for today.')">🎯 Mission</button>
+        <button onclick="quickFill('I keep procrastinating and cannot start.')">⏳ Procrastinating</button>
+        <button onclick="quickFill('My room or apartment is messy.')">🧹 Messy</button>
       </div>
 
-      <button class="main-button" onclick="runStackMinds()">
-        ✨ Organize My Mind
-      </button>
-
-      <button class="secondary-button" onclick="startVoiceDump()">
-        🎤 Talk It Out
-      </button>
-
-      <button class="secondary-button" onclick="startFocusSprint()">
-        ⏱ Start 5-Min Focus Sprint
-      </button>
+      <button class="main-button" onclick="runStackMinds()">✨ Organize My Mind</button>
+      <button class="secondary-button" onclick="startVoiceDump()">🎤 Talk It Out</button>
+      <button class="secondary-button" onclick="startFocusSprint()">⏱ Start 5-Min Focus Sprint</button>
 
       <div class="timer" id="timerDisplay">5:00</div>
 
@@ -107,13 +92,8 @@
 
     <section class="card">
       <h2>🏆 Today’s Win Vault</h2>
-
       <input id="winInput" placeholder="Type one small win..." />
-
-      <button class="secondary-button" onclick="saveWin()">
-        Save Win
-      </button>
-
+      <button class="secondary-button" onclick="saveWin()">Save Win</button>
       <ul id="winList"></ul>
     </section>
 

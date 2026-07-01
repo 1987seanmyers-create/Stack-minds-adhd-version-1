@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings - StackMinds AI</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="phone-shell">
+    <section class="card">
+      <h1>⚙️ Settings</h1>
+      <p>Customize how StackMinds works for you.</p>
+
+      <h2>Mode</h2>
+      <p><strong>Free ADHD Coach:</strong> Uses built-in guidance with no AI cost.</p>
+      <p><strong>AI Coach:</strong> Uses OpenAI when available.</p>
+
+      <h2>Data</h2>
+      <button class="secondary-button" onclick="clearLocalData()">Clear Local Data</button>
+
+      <h2>Legal</h2>
+      <p><a href="/static/privacy.html">Privacy Policy</a></p>
+
+      <p><a href="/">Back to StackMinds</a></p>
+    </section>
+  </div>
+
+  <script>
+    function clearLocalData() {
+      if (confirm("Clear wins, history, mood, and streak data?")) {
+        localStorage.clear();
+        alert("Local data cleared.");
+      }
+    }
+  </script>
+</body>
+</html>

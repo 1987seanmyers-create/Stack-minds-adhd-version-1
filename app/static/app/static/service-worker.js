@@ -1,10 +1,12 @@
-const CACHE_NAME = "stackminds-v1";
+const CACHE_NAME = "stackminds-v2";
 
 const ASSETS = [
   "/",
+  "/static/index.html",
   "/static/style.css",
   "/static/app.js",
-  "/static/manifest.webmanifest"
+  "/static/manifest.webmanifest",
+  "/static/brain_background.jpg"
 ];
 
 self.addEventListener("install", event => {

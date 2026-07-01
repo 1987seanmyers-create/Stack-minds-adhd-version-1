@@ -341,3 +341,25 @@ function checkAchievements() {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/static/service-worker.js");
 }
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+
+        const splash =
+            document.getElementById("splashScreen");
+
+        if (splash) {
+
+            splash.classList.add("hide");
+
+            setTimeout(() => {
+
+                splash.style.display = "none";
+
+            }, 800);
+
+        }
+
+    }, 2000);
+
+});

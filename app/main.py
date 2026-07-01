@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -6,6 +6,8 @@ from pydantic import BaseModel
 from openai import OpenAI
 import os
 import json
+import hashlib
+from datetime import date
 
 app = FastAPI()
 
@@ -17,16 +19,21 @@ app.mount(
     name="static"
 )
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+
+CACHE = {}
+DAILY_USAGE = {}
+AI_DAILY_LIMIT = 10
+
+
+class BrainDump(BaseModel):
+    idea: str
 
 
 @app.get("/")
 async def root():
-    return FileResponse(
-        BASE_DIR / "static" / "index.html"
-    )
+    return FileResponse(BASE_DIR / "static" / "index.html")
 
 
 @app.get("/health")
@@ -37,67 +44,61 @@ async def health():
     }
 
 
-class BrainDump(BaseModel):
-    idea: str
+def cache_key(text: str):
+    return hashlib.sha256(text.lower().strip().encode()).hexdigest()
+
+
+def get_user_key(request: Request):
+    ip = request.client.host if request.client else "unknown"
+    today = date.today().isoformat()
+    return f"{ip}:{today}"
+
+
+def over_daily_limit(user_key: str):
+    return DAILY_USAGE.get(user_key, 0) >= AI_DAILY_LIMIT
+
+
+def record_ai_use(user_key: str):
+    DAILY_USAGE[user_key] = DAILY_USAGE.get(user_key, 0) + 1
 
 
 def fallback_adhd_logic(text: str):
-    lower_text = text.lower()
+    lower = text.lower()
 
     tasks = [
-        line.strip()
-        for line in text.split(",")
-        if line.strip()
+        part.strip()
+        for part in text.replace(".", ",").split(",")
+        if part.strip()
     ]
 
-    next_step = "Pick one small thing and work on it for 5 minutes."
-    focus_plan = "Do not solve everything at once. Reduce overwhelm first."
+    if not tasks:
+        tasks = ["Breathe", "Pick one small thing", "Start for 2 minutes"]
 
-    if "overwhelmed" in lower_text:
-        next_step = "Choose ONE tiny thing and do it for only 5 minutes."
-        focus_plan = (
-            "Your brain is overloaded right now. "
-            "Do not try to organize your whole life. "
-            "Pick one tiny visible action."
-        )
+    next_step = "Pick one tiny action and do it for 2 minutes."
+    focus_plan = "Do not solve everything at once. Start small and build momentum."
 
-    elif "messy" in lower_text or "room" in lower_text or "apartment" in lower_text:
+    if "overwhelmed" in lower or "panic" in lower:
+        next_step = "Put both feet on the floor and do one tiny visible task."
+        focus_plan = "Your brain is overloaded. Do not plan your whole life right now. Do one small action."
+
+    elif "messy" in lower or "room" in lower or "apartment" in lower:
         next_step = "Pick up visible trash first."
-        focus_plan = (
-            "Ignore deep cleaning. "
-            "Only remove obvious trash or dirty dishes first."
-        )
+        focus_plan = "Do not deep clean. Only remove obvious trash or dishes for 5 minutes."
 
-    elif "procrastinating" in lower_text:
-        next_step = "Start with the easiest possible task."
-        focus_plan = (
-            "Momentum matters more than perfection. "
-            "Starting is the win."
-        )
+    elif "procrastinating" in lower or "can't start" in lower:
+        next_step = "Start the easiest possible version of the task."
+        focus_plan = "The goal is not finishing. The goal is starting."
 
-    elif "money" in lower_text or "bills" in lower_text:
-        next_step = "List your most urgent bill first."
-        focus_plan = (
-            "Do not think about all finances at once. "
-            "Handle one immediate problem first."
-        )
+    elif "money" in lower or "bills" in lower:
+        next_step = "Write down the most urgent bill first."
+        focus_plan = "Do not look at all money problems at once. Handle one immediate thing."
 
-    elif "app" in lower_text or "business" in lower_text:
-        next_step = "Write down ONE task that moves the project forward."
-        focus_plan = (
-            "Ignore the entire business for now. "
-            "Focus only on the next build step."
-        )
-
-    elif "tired" in lower_text or "burned out" in lower_text:
-        next_step = "Drink water and rest for 15 minutes."
-        focus_plan = (
-            "Burnout is not laziness. "
-            "Reduce pressure before trying to perform."
-        )
+    elif "business" in lower or "app" in lower:
+        next_step = "Pick one build step that moves the app forward today."
+        focus_plan = "Ignore the whole business. Choose one task, finish it, then stop."
 
     return {
-        "mode": "ADHD Focus — Free Logic",
+        "mode": "Offline ADHD Coach",
         "brain_dump": text,
         "organized_tasks": tasks,
         "next_step": next_step,
@@ -105,23 +106,84 @@ def fallback_adhd_logic(text: str):
     }
 
 
-@app.post("/api/run")
-async def run_stackminds(data: BrainDump):
+def should_use_ai(text: str):
+    lower = text.lower()
 
-    text = data.idea
+    if not client:
+        return False
+
+    if len(text.strip()) < 25:
+        return False
+
+    free_triggers = [
+        "overwhelmed",
+        "messy",
+        "procrastinating",
+        "panic",
+        "room",
+        "apartment"
+    ]
+
+    if any(word in lower for word in free_triggers):
+        return False
+
+    return True
+
+
+def parse_ai_json(content: str):
+    cleaned = content.strip()
+
+    if cleaned.startswith("```json"):
+        cleaned = cleaned.replace("```json", "").replace("```", "").strip()
+
+    if cleaned.startswith("```"):
+        cleaned = cleaned.replace("```", "").strip()
+
+    return json.loads(cleaned)
+
+
+@app.post("/api/run")
+async def run_stackminds(data: BrainDump, request: Request):
+    text = data.idea.strip()
+
+    if not text:
+        return fallback_adhd_logic("I need one small next step.")
+
+    key = cache_key(text)
+
+    if key in CACHE:
+        cached = CACHE[key]
+        cached["mode"] = "Cached AI Response"
+        return cached
+
+    fallback = fallback_adhd_logic(text)
+
+    user_key = get_user_key(request)
+
+    if not should_use_ai(text):
+        return fallback
+
+    if over_daily_limit(user_key):
+        fallback["mode"] = "Daily AI Limit Reached"
+        return fallback
 
     prompt = f"""
-You are an ADHD executive function assistant.
+You are StackMinds AI, an ADHD executive-function assistant.
 
-Help reduce overwhelm.
-Keep responses short, calm, and actionable.
+Your job:
+- reduce overwhelm
+- avoid shame
+- organize the user's brain dump
+- choose ONE clear next step
+- keep the answer short
+- make it feel calm and doable
 
 Return ONLY valid JSON:
 
 {{
-  "organized_tasks": ["task"],
-  "next_step": "one step",
-  "focus_plan": "short focus guidance"
+  "organized_tasks": ["task 1", "task 2", "task 3"],
+  "next_step": "one tiny next step",
+  "focus_plan": "short calm focus plan"
 }}
 
 User brain dump:
@@ -134,26 +196,31 @@ User brain dump:
             messages=[
                 {
                     "role": "system",
-                    "content": "You help ADHD users reduce overwhelm."
+                    "content": "You help ADHD users reduce overwhelm and take one small action."
                 },
                 {
                     "role": "user",
                     "content": prompt
                 }
             ],
-            temperature=0.7
+            temperature=0.5
         )
 
         content = response.choices[0].message.content
-        parsed = json.loads(content)
+        parsed = parse_ai_json(content)
 
-        return {
-            "mode": "ADHD Focus — AI",
+        result = {
+            "mode": "AI Coach",
             "brain_dump": text,
             "organized_tasks": parsed.get("organized_tasks", []),
-            "next_step": parsed.get("next_step", ""),
-            "focus_plan": parsed.get("focus_plan", "")
+            "next_step": parsed.get("next_step", fallback["next_step"]),
+            "focus_plan": parsed.get("focus_plan", fallback["focus_plan"])
         }
 
+        CACHE[key] = result
+        record_ai_use(user_key)
+
+        return result
+
     except Exception:
-        return fallback_adhd_logic(text)
+        return fallback

@@ -1,210 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>StackMinds AI</title>
+  <title>StackMinds AI</title>
 
-<link rel="manifest" href="/static/manifest.webmanifest">
-<link rel="stylesheet" href="/static/style.css">
+  <link rel="manifest" href="/static/manifest.webmanifest" />
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 
 <body>
+  <div class="phone-shell">
+
+    <header class="app-header">
+      <div class="logo-circle">🧠</div>
 
-<div class="phone-shell">
+      <p class="eyebrow">StackMinds AI · ADHD Focus</p>
 
-<header class="app-header">
+      <h1>From Chaos to Clarity</h1>
 
-<div class="logo-circle">
-🧠
-</div>
-
-<p class="eyebrow">StackMinds AI</p>
-
-<h1>From Chaos to Clarity</h1>
-
-<p class="helper">
-Dump what's in your head.
-We'll organize it.
-</p>
-
-</header>
-
-
-<section class="card mission-card">
-
-<h2>Today's Mission</h2>
-
-<p id="missionText">
-One small win today.
-</p>
-
-</section>
-
-
-<div class="progress-ring">
-
-<div class="ring">
-
-<div class="ring-inner">
-
-5:00
-
-</div>
-
-</div>
-
-</div>
-
-
-<section class="input-card">
-
-<textarea
-id="ideaInput"
-placeholder="What's overwhelming you today?"></textarea>
-
-<div class="quick-buttons">
-
-<button onclick="quickFill('I feel overwhelmed and need one tiny action.')">
-Panic
-</button>
-
-<button onclick="quickFill('I need one mission for today.')">
-Mission
-</button>
-
-<button onclick="quickFill('I keep procrastinating.')">
-Procrastinating
-</button>
-
-<button onclick="quickFill('Everything feels messy.')">
-Messy
-</button>
-
-</div>
-
-<button
-class="main-button"
-onclick="runStackMinds()">
-
-Run StackMinds
-
-</button>
-
-<button
-class="secondary-button"
-onclick="startVoiceDump()">
-
-🎤 Voice Dump
-
-</button>
-
-<button
-class="secondary-button"
-onclick="startFocusSprint()">
-
-Start Focus Sprint
-
-</button>
-
-<div
-class="timer"
-id="timerDisplay">
-
-5:00
-
-</div>
-
-<p id="statusText">
-Ready.
-</p>
-
-</section>
-
-
-<section class="card highlight">
-
-<h2>Do This Now</h2>
-
-<p id="nextStep">
-
-Your next step appears here.
-
-</p>
-
-</section>
-
-
-<section class="card">
-
-<h2>Focus Plan</h2>
-
-<p id="focusPlan">
-
-Your focus plan appears here.
-
-</p>
-
-</section>
-
-
-<section class="card">
-
-<h2>Organized Tasks</h2>
-
-<ul id="taskList"></ul>
-
-</section>
-
-
-<section class="card">
-
-<h2>Today's Wins</h2>
-
-<input
-id="winInput"
-placeholder="Write one win..." />
-
-<button
-class="secondary-button"
-onclick="saveWin()">
-
-Save Win
-
-</button>
-
-<ul id="winList"></ul>
-
-</section>
-
-
-<section class="card">
-
-<h2>Brain Dump History</h2>
-
-<ul id="historyList"></ul>
-
-</section>
-
-
-<nav class="bottom-nav">
-
-<button>🏠</button>
-
-<button>🧠</button>
-
-<button>🎯</button>
-
-<button>📈</button>
-
-<button>⚙️</button>
-
-</nav>
-
-</div>
-
-<script src="/static/app.js"></script>
-
+      <p class="helper">
+        Dump what is stuck in your head. Get one clear next step.
+      </p>
+    </header>
+
+    <section class="card mission-card">
+      <h2>🎯 Today’s Mission</h2>
+      <p id="missionText">One small win today.</p>
+
+      <div class="progress-ring">
+        <div class="ring">
+          <div class="ring-inner" id="progressText">0%</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="input-card">
+      <textarea
+        id="ideaInput"
+        placeholder="What is overwhelming you right now?"
+      ></textarea>
+
+      <div class="quick-buttons">
+        <button onclick="quickFill('I feel overwhelmed and need one tiny action.')">
+          😵 Panic
+        </button>
+
+        <button onclick="quickFill('I need one mission for today.')">
+          🎯 Mission
+        </button>
+
+        <button onclick="quickFill('I keep procrastinating and cannot start.')">
+          ⏳ Procrastinating
+        </button>
+
+        <button onclick="quickFill('My room or apartment is messy.')">
+          🧹 Messy
+        </button>
+      </div>
+
+      <button class="main-button" onclick="runStackMinds()">
+        ✨ Organize My Mind
+      </button>
+
+      <button class="secondary-button" onclick="startVoiceDump()">
+        🎤 Talk It Out
+      </button>
+
+      <button class="secondary-button" onclick="startFocusSprint()">
+        ⏱ Start 5-Min Focus Sprint
+      </button>
+
+      <div class="timer" id="timerDisplay">5:00</div>
+
+      <p id="statusText">Ready.</p>
+    </section>
+
+    <section class="card highlight">
+      <h2>⚡ Do This Now</h2>
+      <p id="nextStep">Your next step appears here.</p>
+    </section>
+
+    <section class="card">
+      <h2>🧭 Focus Plan</h2>
+      <p id="focusPlan">Your focus plan appears here.</p>
+    </section>
+
+    <section class="card">
+      <h2>✅ Organized Tasks</h2>
+      <ul id="taskList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>😊 Mood Check</h2>
+
+      <div class="quick-buttons">
+        <button onclick="saveMood('great')">😀 Great</button>
+        <button onclick="saveMood('okay')">🙂 Okay</button>
+        <button onclick="saveMood('meh')">😐 Meh</button>
+        <button onclick="saveMood('overwhelmed')">😵 Overwhelmed</button>
+      </div>
+
+      <p id="moodStatus">No mood saved yet.</p>
+    </section>
+
+    <section class="card">
+      <h2>🏆 Today’s Win Vault</h2>
+
+      <input id="winInput" placeholder="Type one small win..." />
+
+      <button class="secondary-button" onclick="saveWin()">
+        Save Win
+      </button>
+
+      <ul id="winList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>📚 Brain Dump History</h2>
+      <ul id="historyList"></ul>
+    </section>
+
+    <section class="card">
+      <h2>📈 Weekly Insights</h2>
+      <p id="weeklyInsights">
+        Use StackMinds for a few days to build your insight report.
+      </p>
+    </section>
+
+    <nav class="bottom-nav">
+      <button title="Home">🏠</button>
+      <button title="Brain Dump">🧠</button>
+      <button title="Mission">🎯</button>
+      <button title="Progress">📈</button>
+      <button title="Settings">⚙️</button>
+    </nav>
+
+  </div>
+
+  <script src="/static/app.js"></script>
 </body>
 </html>

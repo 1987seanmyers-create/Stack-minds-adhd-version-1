@@ -16,7 +16,7 @@
       <p><strong>Free ADHD Coach:</strong> Uses built-in guidance with no AI cost.</p>
       <p><strong>AI Coach:</strong> Uses OpenAI when available.</p>
 
-      <h2>Data</h2>
+      <h2>Data</h2><p><a href="/static/export.html">Export My Data</a></p>
       <button class="secondary-button" onclick="clearLocalData()">Clear Local Data</button>
 
       <h2>Legal</h2>

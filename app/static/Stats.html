@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stats - StackMinds AI</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="phone-shell">
+    <section class="card">
+      <h1>📈 Progress Stats</h1>
+
+      <p id="brainDumps">Brain Dumps: 0</p>
+      <p id="wins">Wins Saved: 0</p>
+      <p id="streak">Current Streak: 0 days</p>
+      <p id="mood">Mood: No mood saved</p>
+
+      <p><a href="/">Back to StackMinds</a></p>
+    </section>
+  </div>
+
+  <script>
+    const history = JSON.parse(localStorage.getItem("history") || "[]");
+    const wins = JSON.parse(localStorage.getItem("wins") || "[]");
+    const streak = localStorage.getItem("streak") || "0";
+    const mood = localStorage.getItem("todayMood");
+
+    document.getElementById("brainDumps").innerText = "Brain Dumps: " + history.length;
+    document.getElementById("wins").innerText = "Wins Saved: " + wins.length;
+    document.getElementById("streak").innerText = "Current Streak: " + streak + " days";
+
+    if (mood) {
+      document.getElementById("mood").innerText =
+        "Mood: " + JSON.parse(mood).mood;
+    }
+  </script>
+</body>
+</html>

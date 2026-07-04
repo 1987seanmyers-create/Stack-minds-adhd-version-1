@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Export - StackMinds AI</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="phone-shell">
+    <section class="card">
+      <h1>📤 Export Data</h1>
+      <p>Copy your saved StackMinds data below.</p>
+
+      <textarea id="exportBox" style="height:300px;"></textarea>
+
+      <button class="secondary-button" onclick="copyData()">Copy Data</button>
+
+      <p><a href="/">Back to StackMinds</a></p>
+    </section>
+  </div>
+
+  <script>
+    const data = {
+      wins: JSON.parse(localStorage.getItem("wins") || "[]"),
+      history: JSON.parse(localStorage.getItem("history") || "[]"),
+      streak: localStorage.getItem("streak") || "0",
+      mood: JSON.parse(localStorage.getItem("todayMood") || "null")
+    };
+
+    document.getElementById("exportBox").value =
+      JSON.stringify(data, null, 2);
+
+    function copyData() {
+      const box = document.getElementById("exportBox");
+      box.select();
+      document.execCommand("copy");
+      alert("Data copied.");
+    }
+  </script>
+</body>
+</html>

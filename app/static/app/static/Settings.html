@@ -3,36 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stats - StackMinds AI</title>
+  <title>Settings - StackMinds AI</title>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
   <div class="phone-shell">
     <section class="card">
-      <h1>📈 Progress Stats</h1>
+      <h1>⚙️ Settings</h1>
+      <p>Customize how StackMinds works for you.</p>
 
-      <p id="brainDumps">Brain Dumps: 0</p>
-      <p id="wins">Wins Saved: 0</p>
-      <p id="streak">Current Streak: 0 days</p>
-      <p id="mood">Mood: No mood saved</p>
+      <h2>Mode</h2>
+      <p><strong>Free ADHD Coach:</strong> Uses built-in guidance with no AI cost.</p>
+      <p><strong>AI Coach:</strong> Uses OpenAI when available.</p>
+
+      <h2>Data</h2>
+
+<button
+  class="secondary-button"
+  onclick="window.location='/static/export.html'">
+
+  📤 Export My Data
+
+</button>
+
+<button
+  class="secondary-button"
+  onclick="clearLocalData()">
+
+  🗑️ Clear Local Data
+
+</button>
+
+      <h2>Legal</h2>
+      <p><a href="/static/privacy.html">Privacy Policy</a></p>
 
       <p><a href="/">Back to StackMinds</a></p>
     </section>
   </div>
 
   <script>
-    const history = JSON.parse(localStorage.getItem("history") || "[]");
-    const wins = JSON.parse(localStorage.getItem("wins") || "[]");
-    const streak = localStorage.getItem("streak") || "0";
-    const mood = localStorage.getItem("todayMood");
-
-    document.getElementById("brainDumps").innerText = "Brain Dumps: " + history.length;
-    document.getElementById("wins").innerText = "Wins Saved: " + wins.length;
-    document.getElementById("streak").innerText = "Current Streak: " + streak + " days";
-
-    if (mood) {
-      document.getElementById("mood").innerText =
-        "Mood: " + JSON.parse(mood).mood;
+    function clearLocalData() {
+      if (confirm("Clear wins, history, mood, and streak data?")) {
+        localStorage.clear();
+        alert("Local data cleared.");
+      }
     }
   </script>
 </body>

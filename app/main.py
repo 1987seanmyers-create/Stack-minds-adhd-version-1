@@ -34,7 +34,24 @@ class BrainDump(BaseModel):
 @app.get("/")
 async def root():
     return FileResponse(BASE_DIR / "static" / "index.html")
+@app.get("/settings")
+async def settings():
+    return FileResponse(BASE_DIR / "static" / "settings.html")
 
+
+@app.get("/stats")
+async def stats():
+    return FileResponse(BASE_DIR / "static" / "stats.html")
+
+
+@app.get("/export")
+async def export():
+    return FileResponse(BASE_DIR / "static" / "export.html")
+
+
+@app.get("/privacy")
+async def privacy():
+    return FileResponse(BASE_DIR / "static" / "privacy.html")
 
 @app.get("/health")
 async def health():

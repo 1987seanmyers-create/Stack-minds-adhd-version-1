@@ -34,6 +34,8 @@ class BrainDump(BaseModel):
 @app.get("/")
 async def root():
     return FileResponse(BASE_DIR / "static" / "index.html")
+
+
 @app.get("/settings")
 async def settings():
     return FileResponse(BASE_DIR / "static" / "settings.html")
@@ -52,6 +54,7 @@ async def export():
 @app.get("/privacy")
 async def privacy():
     return FileResponse(BASE_DIR / "static" / "privacy.html")
+
 
 @app.get("/health")
 async def health():
@@ -174,7 +177,6 @@ async def run_stackminds(data: BrainDump, request: Request):
         return cached
 
     fallback = fallback_adhd_logic(text)
-
     user_key = get_user_key(request)
 
     if not should_use_ai(text):

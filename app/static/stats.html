@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Progress Stats | StackMinds AI</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="theme-color" content="#020617">
+</head>
+
+<body>
+
+  <div class="phone-shell">
+
+    <header class="app-header">
+      <p class="eyebrow">STACKMINDS AI</p>
+      <h1>📈 Progress Stats</h1>
+      <p class="helper">
+        See the momentum you've been building.
+      </p>
+    </header>
+
+
+    <section class="card">
+      <h2>🧠 Brain Dumps</h2>
+      <p id="brainDumpCount">0</p>
+    </section>
+
+
+    <section class="card">
+      <h2>🏆 Wins Saved</h2>
+      <p id="winCount">0</p>
+    </section>
+
+
+    <section class="card">
+      <h2>🔥 Current Streak</h2>
+      <p id="streakCount">0 days</p>
+    </section>
+
+
+    <section class="card">
+      <h2>😊 Today's Mood</h2>
+      <p id="moodValue">No mood saved yet.</p>
+    </section>
+
+
+    <section class="card">
+      <h2>📊 Weekly Snapshot</h2>
+      <p id="weeklySnapshot">
+        Keep using StackMinds to build your progress history.
+      </p>
+    </section>
+
+
+    <button
+      class="main-button"
+      onclick="window.location='/'">
+      🏠 Back to StackMinds
+    </button>
+
+  </div>
+
+
+  <script>
+    const history =
+      JSON.parse(localStorage.getItem("history") || "[]");
+
+    const wins =
+      JSON.parse(localStorage.getItem("wins") || "[]");
+
+    const streak =
+      localStorage.getItem("streak") || "0";
+
+    const moodRaw =
+      localStorage.getItem("todayMood");
+
+    document.getElementById("brainDumpCount").innerText =
+      history.length;
+
+    document.getElementById("winCount").innerText =
+      wins.length;
+
+    document.getElementById("streakCount").innerText =
+      streak + " days";
+
+    let moodText = "No mood saved yet.";
+
+    if (moodRaw) {
+      try {
+        const moodData = JSON.parse(moodRaw);
+        moodText = moodData.mood || "Mood saved";
+      } catch {
+        moodText = moodRaw;
+      }
+    }
+
+    document.getElementById("moodValue").innerText =
+      moodText;
+
+    document.getElementById("weeklySnapshot").innerText =
+      `🧠 ${history.length} brain dumps · 🏆 ${wins.length} wins · 🔥 ${streak} day streak`;
+  </script>
+
+</body>
+</html>

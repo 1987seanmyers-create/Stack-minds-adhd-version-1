@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Export Data | StackMinds AI</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="theme-color" content="#020617">
+</head>
+
+<body>
+
+  <div class="phone-shell">
+
+    <header class="app-header">
+      <p class="eyebrow">STACKMINDS AI</p>
+      <h1>📤 Export Data</h1>
+      <p class="helper">
+        Make a copy of the StackMinds information saved on this device.
+      </p>
+    </header>
+
+
+    <section class="card">
+
+      <h2>Your StackMinds Data</h2>
+
+      <p>
+        This includes your saved wins, brain dump history,
+        streak and current mood.
+      </p>
+
+      <textarea
+        id="exportBox"
+        readonly
+        style="height: 300px;"
+      ></textarea>
+
+      <button
+        class="main-button"
+        onclick="copyData()">
+        📋 Copy My Data
+      </button>
+
+      <button
+        class="secondary-button"
+        onclick="downloadData()">
+        ⬇️ Download Backup
+      </button>
+
+    </section>
+
+
+    <button
+      class="secondary-button"
+      onclick="window.location='/settings'">
+      ⚙️ Back to Settings
+    </button>
+
+    <button
+      class="secondary-button"
+      onclick="window.location='/'">
+      🏠 Back to StackMinds
+    </button>
+
+  </div>
+
+
+  <script>
+
+    const stackMindsData = {
+      exportedAt: new Date().toISOString(),
+
+      wins:
+        JSON.parse(
+          localStorage.getItem("wins") || "[]"
+        ),
+
+      history:
+        JSON.parse(
+          localStorage.getItem("history") || "[]"
+        ),
+
+      streak:
+        localStorage.getItem("streak") || "0",
+
+      mood:
+        localStorage.getItem("todayMood")
+    };
+
+
+    const exportText =
+      JSON.stringify(stackMindsData, null, 2);
+
+
+    document.getElementById("exportBox").value =
+      exportText;
+
+
+    async function copyData() {
+
+      try {
+
+        await navigator.clipboard.writeText(exportText);
+
+        alert("Your StackMinds data was copied.");
+
+      } catch {
+
+        const box =
+          document.getElementById("exportBox");
+
+        box.select();
+
+        document.execCommand("copy");
+
+        alert("Your StackMinds data was copied.");
+
+      }
+
+    }
+
+
+    function downloadData() {
+
+      const blob =
+        new Blob(
+          [exportText],
+          { type: "application/json" }
+        );
+
+      const url =
+        URL.createObjectURL(blob);
+
+      const link =
+        document.createElement("a");
+
+      link.href = url;
+
+      link.download =
+        "stackminds-backup.json";
+
+      document.body.appendChild(link);
+
+      link.click();
+
+      link.remove();
+
+      URL.revokeObjectURL(url);
+
+    }
+
+  </script>
+
+</body>
+</html>

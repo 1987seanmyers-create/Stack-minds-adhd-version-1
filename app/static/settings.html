@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Settings | StackMinds AI</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="theme-color" content="#020617">
+</head>
+
+<body>
+
+  <div class="phone-shell">
+
+    <header class="app-header">
+      <p class="eyebrow">STACKMINDS AI</p>
+      <h1>⚙️ Settings</h1>
+      <p class="helper">
+        Manage your StackMinds preferences and data.
+      </p>
+    </header>
+
+
+    <section class="card">
+
+      <h2>🧠 StackMinds</h2>
+
+      <p>
+        Your wins, brain dump history, mood and streak information
+        are stored locally on this device.
+      </p>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>📤 Your Data</h2>
+
+      <button
+        class="secondary-button"
+        onclick="window.location='/export'">
+        Export My Data
+      </button>
+
+      <button
+        class="secondary-button"
+        onclick="clearLocalData()">
+        🗑️ Clear Local Data
+      </button>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>🔒 Privacy</h2>
+
+      <p>
+        Read how StackMinds handles your information.
+      </p>
+
+      <button
+        class="secondary-button"
+        onclick="window.location='/privacy'">
+        View Privacy Policy
+      </button>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>About</h2>
+
+      <p>
+        <strong>StackMinds AI</strong>
+      </p>
+
+      <p>
+        From chaos to clarity.
+      </p>
+
+      <p>
+        ADHD-friendly tools for turning scattered thoughts
+        into one clear next step.
+      </p>
+
+    </section>
+
+
+    <button
+      class="main-button"
+      onclick="window.location='/'">
+      🏠 Back to StackMinds
+    </button>
+
+  </div>
+
+
+  <script>
+
+    function clearLocalData() {
+
+      const confirmed = confirm(
+        "Delete your saved wins, history, mood and streak data from this device?"
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      localStorage.removeItem("wins");
+      localStorage.removeItem("history");
+      localStorage.removeItem("todayMood");
+      localStorage.removeItem("streak");
+      localStorage.removeItem("lastVisit");
+
+      alert("Your local StackMinds data has been cleared.");
+
+    }
+
+  </script>
+
+</body>
+</html>

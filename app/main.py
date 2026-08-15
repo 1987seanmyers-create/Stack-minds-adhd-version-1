@@ -241,5 +241,7 @@ User brain dump:
 
         return result
 
-    except Exception:
-        return fallback
+   except Exception as e:
+    print("OPENAI ERROR:", str(e))
+    fallback["mode"] = "AI Error - Fallback"
+    return fallback

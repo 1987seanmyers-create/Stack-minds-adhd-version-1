@@ -10,7 +10,13 @@ import hashlib
 from datetime import date
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 BASE_DIR = Path(__file__).resolve().parent
 
 app.mount(

@@ -274,7 +274,6 @@ li {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: spin 8s linear infinite;
 }
 
 .ring-inner {

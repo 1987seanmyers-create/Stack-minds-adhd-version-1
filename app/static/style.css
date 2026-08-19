@@ -7,7 +7,7 @@ body {
   font-family: Arial, sans-serif;
   color: #f8fafc;
   background-image:
-    linear-gradient(rgba(2,6,23,.82), rgba(2,6,23,.90)),
+    linear-gradient(rgba(2, 6, 23, 0.82), rgba(2, 6, 23, 0.90)),
     url("/static/brain_background.jpg");
   background-size: cover;
   background-position: center;
@@ -20,8 +20,15 @@ body {
   margin: 0 auto;
   padding: 18px;
   padding-bottom: 90px;
-  background: linear-gradient(rgba(2,6,23,.88), rgba(2,6,23,.94));
+  background: linear-gradient(
+    rgba(2, 6, 23, 0.88),
+    rgba(2, 6, 23, 0.94)
+  );
 }
+
+/* =========================
+   HEADER
+   ========================= */
 
 .app-header {
   padding: 30px 4px 20px;
@@ -33,14 +40,14 @@ body {
   height: 95px;
   margin: 0 auto 20px;
   border-radius: 50%;
-  background: rgba(255,255,255,.08);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  border: 1px solid rgba(255,255,255,.15);
-  box-shadow: 0 0 40px rgba(56,189,248,.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.35);
 }
 
 .eyebrow {
@@ -55,8 +62,8 @@ h1 {
   line-height: 1;
   margin: 0 0 10px;
   text-shadow:
-    0 0 10px rgba(56,189,248,.6),
-    0 0 20px rgba(183,109,255,.4);
+    0 0 10px rgba(56, 189, 248, 0.60),
+    0 0 20px rgba(183, 109, 255, 0.40);
 }
 
 .helper {
@@ -64,22 +71,63 @@ h1 {
   margin: 0;
 }
 
+/* =========================
+   CARDS
+   ========================= */
+
 .input-card,
 .card {
-  background: rgba(30,41,59,.82);
+  background: rgba(30, 41, 59, 0.82);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 24px;
   padding: 18px;
   margin-bottom: 18px;
-  box-shadow: 0 12px 30px rgba(0,0,0,.30);
-  transition: .35s;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.30);
+  transition: 0.35s;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 40px rgba(56,189,248,.22);
+  box-shadow: 0 18px 40px rgba(56, 189, 248, 0.22);
 }
+
+.card h2 {
+  margin-top: 0;
+  color: #e0f2fe;
+}
+
+.card p,
+li {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.card.highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 77, 77, 0.35),
+    rgba(255, 157, 0, 0.35),
+    rgba(56, 211, 159, 0.35),
+    rgba(56, 189, 248, 0.35),
+    rgba(183, 109, 255, 0.35)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.mission-card {
+  background: linear-gradient(
+    135deg,
+    rgba(56, 211, 159, 0.25),
+    rgba(56, 189, 248, 0.25),
+    rgba(183, 109, 255, 0.25)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* =========================
+   INPUTS
+   ========================= */
 
 textarea,
 input {
@@ -87,11 +135,13 @@ input {
   padding: 14px;
   font-size: 16px;
   border-radius: 18px;
-  border: 1px solid rgba(56,189,248,.30);
-  background: rgba(2,6,23,.92);
+  border: 1px solid rgba(56, 189, 248, 0.30);
+  background: rgba(2, 6, 23, 0.92);
   color: white;
   outline: none;
- textarea {
+}
+
+textarea {
   height: 220px;
   min-height: 220px;
   resize: none;
@@ -99,13 +149,17 @@ input {
   overflow-y: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
-}   
+}
 
 textarea:focus,
 input:focus {
   border-color: #38d39f;
-  box-shadow: 0 0 18px rgba(56,211,159,.25);
+  box-shadow: 0 0 18px rgba(56, 211, 159, 0.25);
 }
+
+/* =========================
+   QUICK BUTTONS
+   ========================= */
 
 .quick-buttons {
   display: grid;
@@ -118,10 +172,14 @@ input:focus {
   padding: 12px;
   font-size: 14px;
   border-radius: 14px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: white;
 }
+
+/* =========================
+   MAIN BUTTON
+   ========================= */
 
 .main-button {
   width: 100%;
@@ -139,9 +197,13 @@ input:focus {
     #b76dff
   );
   color: white;
-  box-shadow: 0 0 25px rgba(56,189,248,.35);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
   animation: pulseGlow 2s infinite;
 }
+
+/* =========================
+   SECONDARY BUTTONS
+   ========================= */
 
 .secondary-button {
   width: 100%;
@@ -150,62 +212,37 @@ input:focus {
   font-size: 15px;
   font-weight: bold;
   border-radius: 16px;
-  background: rgba(183,109,255,.20);
+  background: rgba(183, 109, 255, 0.20);
   color: white;
-  border: 1px solid rgba(183,109,255,.35);
+  border: 1px solid rgba(183, 109, 255, 0.35);
 }
 
 button {
   border: none;
   cursor: pointer;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(56,189,248,.3);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.30);
 }
 
 button:active {
-  transform: scale(.98);
+  transform: scale(0.98);
 }
+
+/* =========================
+   STATUS
+   ========================= */
 
 #statusText {
   color: #94a3b8;
 }
 
-.card.highlight {
-  background: linear-gradient(
-    135deg,
-    rgba(255,77,77,.35),
-    rgba(255,157,0,.35),
-    rgba(56,211,159,.35),
-    rgba(56,189,248,.35),
-    rgba(183,109,255,.35)
-  );
-  border: 1px solid rgba(255,255,255,.18);
-}
-
-.mission-card {
-  background: linear-gradient(
-    135deg,
-    rgba(56,211,159,.25),
-    rgba(56,189,248,.25),
-    rgba(183,109,255,.25)
-  );
-  border: 1px solid rgba(255,255,255,.18);
-}
-
-.card h2 {
-  margin-top: 0;
-  color: #e0f2fe;
-}
-
-.card p,
-li {
-  font-size: 16px;
-  line-height: 1.5;
-}
+/* =========================
+   LISTS
+   ========================= */
 
 ul {
   padding-left: 22px;
@@ -214,6 +251,10 @@ ul {
 li {
   margin-bottom: 8px;
 }
+
+/* =========================
+   PROGRESS RING
+   ========================= */
 
 .progress-ring {
   display: flex;
@@ -228,7 +269,7 @@ li {
   background: conic-gradient(
     #38d39f 0deg,
     #38bdf8 180deg,
-    rgba(255,255,255,.08) 180deg
+    rgba(255, 255, 255, 0.08) 180deg
   );
   display: flex;
   align-items: center;
@@ -249,14 +290,22 @@ li {
   color: white;
 }
 
+/* =========================
+   TIMER
+   ========================= */
+
 .timer {
   margin-top: 14px;
   text-align: center;
   font-size: 34px;
   font-weight: bold;
   color: #38d39f;
-  text-shadow: 0 0 18px rgba(56,211,159,.45);
+  text-shadow: 0 0 18px rgba(56, 211, 159, 0.45);
 }
+
+/* =========================
+   BOTTOM NAVIGATION
+   ========================= */
 
 .bottom-nav {
   position: sticky;
@@ -265,10 +314,10 @@ li {
   justify-content: space-around;
   padding: 16px;
   margin-top: 20px;
-  background: rgba(10,15,25,.85);
+  background: rgba(10, 15, 25, 0.85);
   backdrop-filter: blur(20px);
   border-radius: 26px 26px 0 0;
-  border-top: 1px solid rgba(255,255,255,.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .bottom-nav button {
@@ -278,56 +327,26 @@ li {
   color: white;
 }
 
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 12px rgba(56,189,248,.35);
-  }
+/* =========================
+   SPLASH SCREEN
+   ========================= */
 
-  50% {
-    box-shadow: 0 0 35px rgba(183,109,255,.55);
-  }
-
-  100% {
-    box-shadow: 0 0 12px rgba(56,189,248,.35);
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 600px) {
-  h1 {
-    font-size: 30px;
-  }
-
-  .phone-shell {
-    padding: 14px;
-    padding-bottom: 90px;
-  }
-
-  .quick-buttons {
-    grid-template-columns: 1fr;
-  }
-}
 .splash-screen {
   position: fixed;
   inset: 0;
   z-index: 9999;
   background:
-    radial-gradient(circle at top, rgba(56,189,248,.20), transparent 35%),
+    radial-gradient(
+      circle at top,
+      rgba(56, 189, 248, 0.20),
+      transparent 35%
+    ),
     linear-gradient(180deg, #020617, #0f172a);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: opacity .8s ease, visibility .8s ease;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 
 .splash-screen.hide {
@@ -340,8 +359,8 @@ li {
   height: 150px;
   border-radius: 32px;
   box-shadow:
-    0 0 35px rgba(56,189,248,.55),
-    0 0 60px rgba(183,109,255,.35);
+    0 0 35px rgba(56, 189, 248, 0.55),
+    0 0 60px rgba(183, 109, 255, 0.35);
   animation: splashPulse 2s infinite;
 }
 
@@ -355,6 +374,34 @@ li {
   margin-top: 0;
 }
 
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(183, 109, 255, 0.55);
+  }
+
+  100% {
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes splashPulse {
   0% {
     transform: scale(1);
@@ -366,5 +413,24 @@ li {
 
   100% {
     transform: scale(1);
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  .phone-shell {
+    padding: 14px;
+    padding-bottom: 90px;
+  }
+
+  .quick-buttons {
+    grid-template-columns: 1fr;
   }
 }

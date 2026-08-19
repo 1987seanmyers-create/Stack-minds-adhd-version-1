@@ -91,12 +91,15 @@ input {
   background: rgba(2,6,23,.92);
   color: white;
   outline: none;
-}
-
-textarea {
-  height: 150px;
+ textarea {
+  height: 220px;
+  min-height: 220px;
   resize: none;
-}
+  line-height: 1.45;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}   
 
 textarea:focus,
 input:focus {

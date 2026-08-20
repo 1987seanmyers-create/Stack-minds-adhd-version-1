@@ -8,7 +8,441 @@ body {
   color: #f8fafc;
   background-image:
     linear-gradient(rgba(2, 6, 23, 0.82), rgba(2, 6, 23, 0.90)),
+    * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #f8fafc;
+  background-image:
+    linear-gradient(rgba(2, 6, 23, 0.82), rgba(2, 6, 23, 0.90)),
     url("/static/brain_background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.phone-shell {
+  max-width: 430px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 18px;
+  padding-bottom: 90px;
+  background: linear-gradient(
+    rgba(2, 6, 23, 0.88),
+    rgba(2, 6, 23, 0.94)
+  );
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.app-header {
+  padding: 30px 4px 20px;
+  text-align: center;
+}
+
+.logo-circle {
+  width: 95px;
+  height: 95px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.35);
+}
+
+.eyebrow {
+  color: #38d39f;
+  font-weight: bold;
+  margin: 0 0 8px;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 34px;
+  line-height: 1;
+  margin: 0 0 10px;
+  text-shadow:
+    0 0 10px rgba(56, 189, 248, 0.60),
+    0 0 20px rgba(183, 109, 255, 0.40);
+}
+
+.helper {
+  color: #cbd5e1;
+  margin: 0;
+}
+
+/* =========================
+   CARDS
+   ========================= */
+
+.input-card,
+.card {
+  background: rgba(30, 41, 59, 0.82);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 24px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.30);
+  transition: 0.35s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(56, 189, 248, 0.22);
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #e0f2fe;
+}
+
+.card p,
+li {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.card.highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 77, 77, 0.35),
+    rgba(255, 157, 0, 0.35),
+    rgba(56, 211, 159, 0.35),
+    rgba(56, 189, 248, 0.35),
+    rgba(183, 109, 255, 0.35)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.mission-card {
+  background: linear-gradient(
+    135deg,
+    rgba(56, 211, 159, 0.25),
+    rgba(56, 189, 248, 0.25),
+    rgba(183, 109, 255, 0.25)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* =========================
+   INPUTS
+   ========================= */
+
+textarea,
+input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(56, 189, 248, 0.30);
+  background: rgba(2, 6, 23, 0.92);
+  color: white;
+  outline: none;
+}
+
+textarea {
+  height: 220px;
+  min-height: 220px;
+  resize: none;
+  line-height: 1.45;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+textarea:focus,
+input:focus {
+  border-color: #38d39f;
+  box-shadow: 0 0 18px rgba(56, 211, 159, 0.25);
+}
+
+/* =========================
+   QUICK BUTTONS
+   ========================= */
+
+.quick-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.quick-buttons button {
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* =========================
+   MAIN BUTTON
+   ========================= */
+
+.main-button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 18px;
+  background: linear-gradient(
+    90deg,
+    #ff4d4d,
+    #ff9d00,
+    #38d39f,
+    #38bdf8,
+    #b76dff
+  );
+  color: white;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+  animation: pulseGlow 2s infinite;
+}
+
+/* =========================
+   SECONDARY BUTTONS
+   ========================= */
+
+.secondary-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 16px;
+  background: rgba(183, 109, 255, 0.20);
+  color: white;
+  border: 1px solid rgba(183, 109, 255, 0.35);
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.30);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* =========================
+   STATUS
+   ========================= */
+
+#statusText {
+  color: #94a3b8;
+}
+
+/* =========================
+   LISTS
+   ========================= */
+
+ul {
+  padding-left: 22px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+/* =========================
+   PROGRESS RING
+   ========================= */
+
+.progress-ring {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.ring {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #38d39f 0deg,
+    #38bdf8 180deg,
+    rgba(255, 255, 255, 0.08) 180deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-inner {
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  background: #08111d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+}
+
+/* =========================
+   TIMER
+   ========================= */
+
+.timer {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+  color: #38d39f;
+  text-shadow: 0 0 18px rgba(56, 211, 159, 0.45);
+}
+
+/* =========================
+   BOTTOM NAVIGATION
+   ========================= */
+
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 16px;
+  margin-top: 20px;
+  background: rgba(10, 15, 25, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 26px 26px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.bottom-nav button {
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+}
+
+/* =========================
+   SPLASH SCREEN
+   ========================= */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(56, 189, 248, 0.20),
+      transparent 35%
+    ),
+    linear-gradient(180deg, #020617, #0f172a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.splash-screen.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.splash-logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 32px;
+  box-shadow:
+    0 0 35px rgba(56, 189, 248, 0.55),
+    0 0 60px rgba(183, 109, 255, 0.35);
+  animation: splashPulse 2s infinite;
+}
+
+.splash-screen h1 {
+  margin-top: 22px;
+  font-size: 32px;
+}
+
+.splash-screen p {
+  color: #cbd5e1;
+  margin-top: 0;
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+  }
+
+  50% {
+    box-shadow: 0 0 35px rgba(183, 109, 255, 0.55);
+  }
+
+  100% {
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes splashPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  .phone-shell {
+    padding: 14px;
+    padding-bottom: 90px;
+  }
+
+  .quick-buttons {
+    grid-template-columns: 1fr;
+  }
+}
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

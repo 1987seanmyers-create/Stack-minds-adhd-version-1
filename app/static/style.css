@@ -30,12 +30,18 @@ body {
   margin: 0 auto;
   padding: 18px;
   padding-bottom: 90px;
-  background: linear-gradient(
-    rgba(2, 6, 23, 0.88),
-    rgba(2, 6, 23, 0.94)
-  );
-}
 
+  background-image:
+    linear-gradient(
+      rgba(2, 6, 23, 0.72),
+      rgba(2, 6, 23, 0.82)
+    ),
+    url("/static/a_seamless_neon_cyber_tech_pattern_wallpaper_scene-3.png");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 /* =========================
    HEADER
    ========================= */

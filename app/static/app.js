@@ -3,16 +3,20 @@ const statusText = document.getElementById("statusText");
 const nextStep = document.getElementById("nextStep");
 const focusPlan = document.getElementById("focusPlan");
 const taskList = document.getElementById("taskList");
+const thenDoList = document.getElementById("thenDoList");
+const canWaitList = document.getElementById("canWaitList");
 const historyList = document.getElementById("historyList");
 const winList = document.getElementById("winList");
 const missionText = document.getElementById("missionText");
 const timerDisplay = document.getElementById("timerDisplay");
+const focusSprintButton = document.getElementById("focusSprintButton");
 const progressText = document.getElementById("progressText");
 const moodStatus = document.getElementById("moodStatus");
 const weeklyInsights = document.getElementById("weeklyInsights");
 
 let timer;
-let seconds = 300;
+let focusMinutes = 5;
+let seconds = focusMinutes * 60;
 
 
 // =========================
@@ -25,6 +29,7 @@ loadStreak();
 loadMood();
 updateProgress();
 updateWeeklyInsights();
+updateTimer();
 
 
 // =========================
@@ -33,6 +38,7 @@ updateWeeklyInsights();
 
 function quickFill(text) {
   input.value = text;
+  input.focus();
 }
 
 
@@ -44,7 +50,7 @@ async function runStackMinds() {
   const text = input.value.trim();
 
   if (!text) {
-    statusText.innerText = "Type a brain dump first.";
+    statusText.innerText = "Type or say what is overwhelming you first.";
     return;
   }
 
@@ -61,36 +67,94 @@ async function runStackMinds() {
       })
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
     const data = await response.json();
+
+
+    // =========================
+    // DO THIS NOW
+    // =========================
 
     nextStep.innerText =
       data.next_step ||
-      "Pick one tiny action and start for 2 minutes.";
-
-    focusPlan.innerText =
-      data.focus_plan ||
-      "Start small. Do not solve everything at once.";
+      "Pick one tiny useful action and start now.";
 
     missionText.innerText =
       data.next_step ||
       "One small win today.";
 
-    taskList.innerHTML = "";
 
-    const tasks = data.organized_tasks || [];
+    // =========================
+    // FOCUS PLAN
+    // =========================
 
-    if (tasks.length === 0) {
-      const li = document.createElement("li");
-      li.innerText =
-        "No tasks found. Try a bigger brain dump.";
-      taskList.appendChild(li);
+    focusPlan.innerText =
+      data.focus_plan ||
+      "Work on only this one action until the timer ends.";
+
+
+    // =========================
+    // THEN DO THIS
+    // =========================
+
+    renderList(
+      thenDoList,
+      data.then_do_this || [],
+      "Nothing else needs your attention yet."
+    );
+
+
+    // =========================
+    // CAN WAIT
+    // =========================
+
+    renderList(
+      canWaitList,
+      data.can_wait || [],
+      "Nothing has been pushed aside."
+    );
+
+
+    // =========================
+    // ALL ORGANIZED TASKS
+    // =========================
+
+    renderList(
+      taskList,
+      data.organized_tasks || [],
+      "No separate tasks found."
+    );
+
+
+    // =========================
+    // DYNAMIC FOCUS SPRINT
+    // =========================
+
+    const requestedMinutes =
+      Number(data.focus_minutes);
+
+    if ([5, 10, 15].includes(requestedMinutes)) {
+      focusMinutes = requestedMinutes;
     } else {
-      tasks.forEach(task => {
-        const li = document.createElement("li");
-        li.innerText = task;
-        taskList.appendChild(li);
-      });
+      focusMinutes = 5;
     }
+
+    seconds = focusMinutes * 60;
+
+    updateTimer();
+
+    if (focusSprintButton) {
+      focusSprintButton.innerText =
+        `⏱ Start ${focusMinutes}-Min Focus Sprint`;
+    }
+
+
+    // =========================
+    // SAVE / UPDATE
+    // =========================
 
     saveHistory(
       text,
@@ -98,30 +162,102 @@ async function runStackMinds() {
     );
 
     incrementBrainDumpCount();
+
     updateProgress();
     updateWeeklyInsights();
 
-    statusText.innerText = "Done.";
+    statusText.innerText =
+      "Clarity ready. Start with Do This Now.";
 
   } catch (error) {
-    console.error("STACKMINDS ERROR:", error);
+    console.error(
+      "STACKMINDS ERROR:",
+      error
+    );
 
-    statusText.innerText = "Offline ADHD Coach";
+    runOfflineFallback(text);
+  }
+}
 
-    nextStep.innerText =
-      "Do one tiny task for 2 minutes.";
 
-    focusPlan.innerText =
-      "AI is unavailable. Use the fallback plan: breathe, pick one visible task, start small.";
+// =========================
+// RENDER LIST
+// =========================
 
-    missionText.innerText =
-      "Do one tiny task for 2 minutes.";
+function renderList(element, items, emptyMessage) {
+  if (!element) return;
 
-    taskList.innerHTML = `
-      <li>Drink water</li>
-      <li>Clear one small space</li>
-      <li>Do one task for 2 minutes</li>
-    `;
+  element.innerHTML = "";
+
+  if (!Array.isArray(items) || items.length === 0) {
+    const li = document.createElement("li");
+    li.innerText = emptyMessage;
+    element.appendChild(li);
+    return;
+  }
+
+  items.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = item;
+    element.appendChild(li);
+  });
+}
+
+
+// =========================
+// OFFLINE FALLBACK
+// =========================
+
+function runOfflineFallback(text) {
+  statusText.innerText =
+    "Offline ADHD Coach";
+
+  nextStep.innerText =
+    "Pick one useful task and work on it for 5 minutes.";
+
+  missionText.innerText =
+    "One small action. Nothing else yet.";
+
+  focusPlan.innerText =
+    "Ignore the rest for five minutes. Starting is the win.";
+
+  renderList(
+    thenDoList,
+    [
+      "Finish the first small action",
+      "Take a short pause",
+      "Choose one more useful task"
+    ],
+    "Nothing else yet."
+  );
+
+  renderList(
+    canWaitList,
+    [],
+    "Everything else can wait until the first action is done."
+  );
+
+  const fallbackTasks =
+    text
+      .replace(/\./g, ",")
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean);
+
+  renderList(
+    taskList,
+    fallbackTasks,
+    "Write a few things that are on your mind."
+  );
+
+  focusMinutes = 5;
+  seconds = 300;
+
+  updateTimer();
+
+  if (focusSprintButton) {
+    focusSprintButton.innerText =
+      "⏱ Start 5-Min Focus Sprint";
   }
 }
 
@@ -131,7 +267,6 @@ async function runStackMinds() {
 // =========================
 
 async function startVoiceDump() {
-
   statusText.innerText =
     "Starting microphone...";
 
@@ -201,7 +336,7 @@ async function startVoiceDump() {
           result.matches[0];
 
         statusText.innerText =
-          "Voice dump added.";
+          "Voice dump added. Tap Run StackMinds AI.";
 
       } else {
 
@@ -222,10 +357,8 @@ async function startVoiceDump() {
       window.webkitSpeechRecognition;
 
     if (!BrowserSpeechRecognition) {
-
       statusText.innerText =
         "Voice input is not supported on this device.";
-
       return;
     }
 
@@ -242,7 +375,6 @@ async function startVoiceDump() {
     recognition.start();
 
     recognition.onresult = event => {
-
       if (
         event.results &&
         event.results[0] &&
@@ -253,12 +385,11 @@ async function startVoiceDump() {
           event.results[0][0].transcript;
 
         statusText.innerText =
-          "Voice dump added.";
+          "Voice dump added. Tap Run StackMinds AI.";
       }
     };
 
     recognition.onerror = event => {
-
       console.error(
         "BROWSER VOICE ERROR:",
         event
@@ -269,19 +400,16 @@ async function startVoiceDump() {
     };
 
     recognition.onend = () => {
-
       if (
         statusText.innerText ===
         "Listening..."
       ) {
-
         statusText.innerText =
           "Listening stopped.";
       }
     };
 
   } catch (error) {
-
     console.error(
       "VOICE ERROR:",
       error
@@ -298,31 +426,33 @@ async function startVoiceDump() {
 // =========================
 
 function startFocusSprint() {
-
   clearInterval(timer);
 
-  seconds = 300;
+  seconds =
+    focusMinutes * 60;
 
   updateTimer();
 
   statusText.innerText =
-    "Focus Sprint started. Starting is the win.";
+    `${focusMinutes}-minute Focus Sprint started. One task only.`;
 
   timer = setInterval(() => {
-
     seconds--;
 
     updateTimer();
 
     if (seconds <= 0) {
-
       clearInterval(timer);
+
+      seconds = 0;
+
+      updateTimer();
 
       statusText.innerText =
         "Focus Sprint complete.";
 
       saveAutoWin(
-        "Completed a 5-minute focus sprint"
+        `Completed a ${focusMinutes}-minute focus sprint`
       );
 
       alert(
@@ -335,6 +465,7 @@ function startFocusSprint() {
 
 
 function updateTimer() {
+  if (!timerDisplay) return;
 
   const minutes =
     Math.floor(seconds / 60);
@@ -354,7 +485,6 @@ function updateTimer() {
 // =========================
 
 function saveWin() {
-
   const box =
     document.getElementById("winInput");
 
@@ -387,10 +517,14 @@ function saveWin() {
   checkAchievements();
   updateProgress();
   updateWeeklyInsights();
+
+  statusText.innerText =
+    "Win saved.";
 }
 
 
 function loadWins() {
+  if (!winList) return;
 
   const wins =
     JSON.parse(
@@ -421,7 +555,6 @@ function loadWins() {
 // =========================
 
 function saveHistory(text, next) {
-
   const history =
     JSON.parse(
       localStorage.getItem("history") ||
@@ -446,6 +579,7 @@ function saveHistory(text, next) {
 
 
 function loadHistory() {
+  if (!historyList) return;
 
   const history =
     JSON.parse(
@@ -465,11 +599,8 @@ function loadHistory() {
       if (
         typeof item === "string"
       ) {
-
         li.innerText = item;
-
       } else {
-
         li.innerText =
           item.nextStep
             ? item.nextStep
@@ -486,7 +617,6 @@ function loadHistory() {
 // =========================
 
 function loadStreak() {
-
   const today =
     new Date().toDateString();
 
@@ -515,11 +645,8 @@ function loadStreak() {
       lastVisit ===
       yesterday.toDateString()
     ) {
-
       streak++;
-
     } else {
-
       streak = 1;
     }
 
@@ -535,9 +662,12 @@ function loadStreak() {
   }
 
   if (
-    !missionText.innerText ||
-    missionText.innerText ===
-      "One small win today."
+    missionText &&
+    (
+      !missionText.innerText ||
+      missionText.innerText ===
+        "One small win today."
+    )
   ) {
 
     missionText.innerText =
@@ -551,7 +681,6 @@ function loadStreak() {
 // =========================
 
 function saveMood(mood) {
-
   const moodData = {
     mood: mood,
     date: new Date().toISOString()
@@ -571,6 +700,7 @@ function saveMood(mood) {
 
 
 function loadMood() {
+  if (!moodStatus) return;
 
   const saved =
     localStorage.getItem(
@@ -578,10 +708,8 @@ function loadMood() {
     );
 
   if (!saved) {
-
     moodStatus.innerText =
       "No mood saved yet.";
-
     return;
   }
 
@@ -599,7 +727,6 @@ function loadMood() {
 // =========================
 
 function saveAutoWin(text) {
-
   const wins =
     JSON.parse(
       localStorage.getItem("wins") ||
@@ -629,7 +756,6 @@ function saveAutoWin(text) {
 // =========================
 
 function incrementBrainDumpCount() {
-
   const count =
     parseInt(
       localStorage.getItem(
@@ -649,7 +775,6 @@ function incrementBrainDumpCount() {
 // =========================
 
 function updateProgress() {
-
   const wins =
     JSON.parse(
       localStorage.getItem("wins") ||
@@ -688,7 +813,6 @@ function updateProgress() {
     Math.min(score, 100);
 
   if (progressText) {
-
     progressText.innerText =
       score + "%";
   }
@@ -700,6 +824,7 @@ function updateProgress() {
 // =========================
 
 function updateWeeklyInsights() {
+  if (!weeklyInsights) return;
 
   const wins =
     JSON.parse(
@@ -727,7 +852,6 @@ function updateWeeklyInsights() {
     "No mood saved";
 
   if (mood) {
-
     moodText =
       JSON.parse(mood).mood;
   }
@@ -742,7 +866,6 @@ function updateWeeklyInsights() {
 // =========================
 
 function checkAchievements() {
-
   const wins =
     JSON.parse(
       localStorage.getItem("wins") ||
@@ -775,7 +898,6 @@ function checkAchievements() {
 if (
   "serviceWorker" in navigator
 ) {
-
   navigator.serviceWorker.register(
     "/static/service-worker.js"
   );

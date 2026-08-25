@@ -1,22 +1,31 @@
 {
-  "name": "StackMinds AI ADHD Focus",
-  "short_name": "StackMinds",
-  "description": "From chaos to clarity. ADHD-friendly brain dump, focus, and momentum tool.",
+  "name": "Stack Minds AI",
+  "short_name": "Stack Minds",
+  "description": "Turn mental chaos into clear, manageable next steps.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#38bdf8",
   "orientation": "portrait",
+  "background_color": "#070712",
+  "theme_color": "#6B58FF",
   "icons": [
     {
-      "src": "/static/icon-192.png",
+      "src": "/static/stackminds-icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/static/icon-512.png",
+      "src": "/static/stackminds-icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/stackminds-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

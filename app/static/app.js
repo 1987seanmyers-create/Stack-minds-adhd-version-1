@@ -43,18 +43,20 @@ function quickFill(text) {
 
 
 // =========================
-// RUN STACKMINDS AI
+// RUN STACK MINDS AI
 // =========================
 
 async function runStackMinds() {
   const text = input.value.trim();
 
   if (!text) {
-    statusText.innerText = "Type or say what is overwhelming you first.";
+    statusText.innerText =
+      "Type or say what is overwhelming you first.";
     return;
   }
 
-  statusText.innerText = "Turning chaos into clarity...";
+  statusText.innerText =
+    "Turning chaos into clarity...";
 
   try {
     const response = await fetch("/api/run", {
@@ -171,7 +173,7 @@ async function runStackMinds() {
 
   } catch (error) {
     console.error(
-      "STACKMINDS ERROR:",
+      "STACK MINDS ERROR:",
       error
     );
 
@@ -190,15 +192,24 @@ function renderList(element, items, emptyMessage) {
   element.innerHTML = "";
 
   if (!Array.isArray(items) || items.length === 0) {
-    const li = document.createElement("li");
-    li.innerText = emptyMessage;
+    const li =
+      document.createElement("li");
+
+    li.innerText =
+      emptyMessage;
+
     element.appendChild(li);
+
     return;
   }
 
   items.forEach(item => {
-    const li = document.createElement("li");
-    li.innerText = item;
+    const li =
+      document.createElement("li");
+
+    li.innerText =
+      item;
+
     element.appendChild(li);
   });
 }
@@ -210,7 +221,7 @@ function renderList(element, items, emptyMessage) {
 
 function runOfflineFallback(text) {
   statusText.innerText =
-    "Offline ADHD Coach";
+    "Stack Minds Offline Mode";
 
   nextStep.innerText =
     "Pick one useful task and work on it for 5 minutes.";
@@ -321,7 +332,7 @@ async function startVoiceDump() {
         await NativeSpeechRecognition.start({
           language: "en-US",
           maxResults: 1,
-          prompt: "Talk it out to StackMinds",
+          prompt: "Talk it out to Stack Minds",
           partialResults: false,
           popup: true
         });
@@ -336,7 +347,7 @@ async function startVoiceDump() {
           result.matches[0];
 
         statusText.innerText =
-          "Voice dump added. Tap Run StackMinds AI.";
+          "Voice dump added. Tap Stack My Mind.";
 
       } else {
 
@@ -365,51 +376,64 @@ async function startVoiceDump() {
     const recognition =
       new BrowserSpeechRecognition();
 
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    recognition.lang =
+      "en-US";
+
+    recognition.interimResults =
+      false;
+
+    recognition.maxAlternatives =
+      1;
 
     statusText.innerText =
       "Listening...";
 
     recognition.start();
 
-    recognition.onresult = event => {
-      if (
-        event.results &&
-        event.results[0] &&
-        event.results[0][0]
-      ) {
+    recognition.onresult =
+      event => {
 
-        input.value =
-          event.results[0][0].transcript;
+        if (
+          event.results &&
+          event.results[0] &&
+          event.results[0][0]
+        ) {
+
+          input.value =
+            event.results[0][0].transcript;
+
+          statusText.innerText =
+            "Voice dump added. Tap Stack My Mind.";
+        }
+      };
+
+    recognition.onerror =
+      event => {
+
+        console.error(
+          "BROWSER VOICE ERROR:",
+          event
+        );
 
         statusText.innerText =
-          "Voice dump added. Tap Run StackMinds AI.";
-      }
-    };
+          "Voice input failed. Tap Talk It Out and try again.";
+      };
 
-    recognition.onerror = event => {
-      console.error(
-        "BROWSER VOICE ERROR:",
-        event
-      );
+    recognition.onend =
+      () => {
 
-      statusText.innerText =
-        "Voice input failed. Tap Talk It Out and try again.";
-    };
+        if (
+          statusText.innerText ===
+          "Listening..."
+        ) {
 
-    recognition.onend = () => {
-      if (
-        statusText.innerText ===
-        "Listening..."
-      ) {
-        statusText.innerText =
-          "Listening stopped.";
-      }
-    };
+          statusText.innerText =
+            "Listening stopped.";
+        }
+      };
 
   } catch (error) {
+
     console.error(
       "VOICE ERROR:",
       error
@@ -436,31 +460,34 @@ function startFocusSprint() {
   statusText.innerText =
     `${focusMinutes}-minute Focus Sprint started. One task only.`;
 
-  timer = setInterval(() => {
-    seconds--;
+  timer =
+    setInterval(() => {
 
-    updateTimer();
-
-    if (seconds <= 0) {
-      clearInterval(timer);
-
-      seconds = 0;
+      seconds--;
 
       updateTimer();
 
-      statusText.innerText =
-        "Focus Sprint complete.";
+      if (seconds <= 0) {
 
-      saveAutoWin(
-        `Completed a ${focusMinutes}-minute focus sprint`
-      );
+        clearInterval(timer);
 
-      alert(
-        "🎉 Focus Sprint Complete!"
-      );
-    }
+        seconds = 0;
 
-  }, 1000);
+        updateTimer();
+
+        statusText.innerText =
+          "Focus Sprint complete.";
+
+        saveAutoWin(
+          `Completed a ${focusMinutes}-minute focus sprint`
+        );
+
+        alert(
+          "🎉 Focus Sprint Complete!"
+        );
+      }
+
+    }, 1000);
 }
 
 
@@ -486,7 +513,9 @@ function updateTimer() {
 
 function saveWin() {
   const box =
-    document.getElementById("winInput");
+    document.getElementById(
+      "winInput"
+    );
 
   const win =
     box.value.trim();
@@ -532,7 +561,8 @@ function loadWins() {
       "[]"
     );
 
-  winList.innerHTML = "";
+  winList.innerHTML =
+    "";
 
   wins
     .slice(0, 8)
@@ -587,7 +617,8 @@ function loadHistory() {
       "[]"
     );
 
-  historyList.innerHTML = "";
+  historyList.innerHTML =
+    "";
 
   history
     .slice(0, 8)
@@ -599,8 +630,12 @@ function loadHistory() {
       if (
         typeof item === "string"
       ) {
-        li.innerText = item;
+
+        li.innerText =
+          item;
+
       } else {
+
         li.innerText =
           item.nextStep
             ? item.nextStep
@@ -645,8 +680,11 @@ function loadStreak() {
       lastVisit ===
       yesterday.toDateString()
     ) {
+
       streak++;
+
     } else {
+
       streak = 1;
     }
 
@@ -708,8 +746,10 @@ function loadMood() {
     );
 
   if (!saved) {
+
     moodStatus.innerText =
       "No mood saved yet.";
+
     return;
   }
 
@@ -795,7 +835,8 @@ function updateProgress() {
       ? 1
       : 0;
 
-  let score = 0;
+  let score =
+    0;
 
   if (brainDumps > 0) {
     score += 35;
@@ -852,6 +893,7 @@ function updateWeeklyInsights() {
     "No mood saved";
 
   if (mood) {
+
     moodText =
       JSON.parse(mood).mood;
   }
@@ -895,11 +937,24 @@ function checkAchievements() {
 // SERVICE WORKER
 // =========================
 
-if (
-  "serviceWorker" in navigator
-) {
-  navigator.serviceWorker.register(
-    "/static/service-worker.js"
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      navigator.serviceWorker
+        .register(
+          "/static/service-worker.js"
+        )
+        .catch(error => {
+
+          console.error(
+            "SERVICE WORKER ERROR:",
+            error
+          );
+        });
+    }
   );
 }
 

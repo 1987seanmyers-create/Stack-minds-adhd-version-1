@@ -30,14 +30,15 @@ body {
 
   background-image:
     linear-gradient(
-      rgba(4, 4, 16, 0.84),
-      rgba(4, 4, 16, 0.94)
+      rgba(4, 4, 16, 0.40),
+      rgba(4, 4, 16, 0.58)
     ),
-    url("/static/a_seamless_neon_cyber_tech_pattern_wallpaper_scene-3.png");
+    url("/static/stackminds-official-bg.png");
 
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 
@@ -53,16 +54,12 @@ body {
   padding: 18px;
   padding-bottom: 90px;
 
-  background-image:
-    linear-gradient(
-      rgba(7, 7, 18, 0.76),
-      rgba(7, 7, 18, 0.91)
-    ),
-    url("/static/a_seamless_neon_cyber_tech_pattern_wallpaper_scene-3.png");
+  background: linear-gradient(
+    rgba(7, 7, 18, 0.42),
+    rgba(7, 7, 18, 0.62)
+  );
 
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  backdrop-filter: blur(2px);
 }
 
 
@@ -780,4 +777,4 @@ li {
 
     height: 150px;
   }
-}
+    }
